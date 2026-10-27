@@ -1,5 +1,6 @@
 .idea/
 .venv/
+.DS_Store
 __pycache__/
 *.py[cod]
 .pytest_cache/
@@ -13,7 +14,15 @@ data/demo/
 data/demo_processed/
 artifacts/*
 !artifacts/.gitkeep
+!artifacts/model_card.json
+!artifacts/production_model.joblib
 outputs/*
 !outputs/.gitkeep
 !outputs/TRAINING_RUN_LOG.md
+!outputs/base/
+!outputs/base/**
+!outputs/variant_i/
+!outputs/variant_i/**
+!outputs/variant_ii/
+!outputs/variant_ii/**
 

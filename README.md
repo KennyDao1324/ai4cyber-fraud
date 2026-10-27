@@ -1,74 +1,154 @@
 # AI4Cyber: Bank Account Opening Fraud Screening
 
-This repository is the code-focused Assignment 2 implementation for the project plan. It trains and
-evaluates fraud-screening models on three BAF datasets, runs exploratory clustering as a second ML
-method, exports the exact processed rows used, and exposes the selected model through a small API.
-The architecture is ML-only: predictions, review labels, and explanations come from the trained model
-and deterministic application logic.
+This repository contains the machine-learning implementation for detecting potentially fraudulent bank
+account applications. It trains and compares four classifiers on three variants of the Bank Account
+Fraud (BAF) dataset, evaluates the models using a time-based split, performs exploratory clustering, and
+serves the selected model through a FastAPI application.
 
-> Academic-integrity warning: the supplied assignment brief says generative AI must **not** be used to
-> generate assessment material. Obtain written tutor approval before submitting any generated code,
-> disclose assistance as required, and make sure every team member can explain and reproduce the work.
+The system is ML-only. It does not contain a chatbot or an LLM. A model score is a screening signal, not
+a verified probability of fraud, and the prototype does not approve, reject, or block real applications.
 
-## What is implemented
+> **Academic integrity:** the supplied assignment brief says generative AI must not be used to generate
+> assessment material. Confirm permitted use with the tutor, disclose assistance where required, and
+> make sure every team member can explain and reproduce the submitted work.
 
-- Three separate datasets: `Base.csv`, `Variant I.csv`, and `Variant II.csv`.
-- Four supervised classifiers per dataset: logistic regression, SGD logistic classification, random
-  forest, and extra trees.
-- A second ML method: MiniBatch K-Means, with `k` selected by silhouette score.
-- Leak-resistant temporal evaluation: months 0-5 train, month 6 validation/threshold selection, and
-  month 7 one-time test.
-- Accuracy, precision, recall, F1, ROC-AUC, PR-AUC, confusion matrix, and recall under a 5% FPR policy.
-- Fairness diagnostics by age group. `customer_age`, `income`, and `employment_status` are retained
-  only for diagnostics and excluded from model inputs.
-- Dataset profiling, EDA charts, precision-recall curves, model comparisons, cluster plots, model
-  artifacts, a model card, and compressed CSVs containing exactly the experiment rows.
-- `GET /`, `POST /predict`, `GET /health`, and `GET /model` endpoints.
+## Quick start
 
-The model score is a ranking signal, not a verified fraud probability. The prototype never approves,
-rejects, or blocks a real application.
+```bash
+git clone https://github.com/KennyDao1324/ai4cyber-fraud.git
+cd ai4cyber-fraud
+conda env create -f environment.yml
+conda activate ai4cyber-fraud
+pytest -q
+python -m uvicorn ai4cyber.api:app --host 127.0.0.1 --port 8010
+```
 
-## 1. Configure the project with Conda
+Open <http://127.0.0.1:8010/docs> to use the API. The small selected production model is stored in the
+repository, so inference and the API work after the dependencies are installed. The raw datasets are only
+needed when retraining.
 
-From a terminal opened at this folder:
+## Project map
+
+| Location | Purpose |
+| --- | --- |
+| `src/ai4cyber/data.py` | Dataset validation, temporal splits, and preprocessing |
+| `src/ai4cyber/training.py` | Classifier training, evaluation, selection, and artifact export |
+| `src/ai4cyber/clustering.py` | MiniBatch K-Means experiment |
+| `src/ai4cyber/eda.py` | Exploratory data analysis charts |
+| `src/ai4cyber/metrics.py` | Classification metrics and threshold selection |
+| `src/ai4cyber/inference.py` | Command-line prediction and local feature effects |
+| `src/ai4cyber/api.py` | FastAPI endpoints |
+| `src/ai4cyber/decision.py` | Score-to-review-label rules |
+| `configs/training.json` | Real experiment settings and sample limits |
+| `configs/demo_training.json` | Small smoke-test settings |
+| `examples/sample_application.json` | Example prediction input |
+| `tests/` | Unit, API, and end-to-end tests |
+| `outputs/TRAINING_RUN_LOG.md` | Consolidated experiment log for the team |
+| `outputs/base/` | Base dataset metrics, CSV files, and charts |
+| `outputs/variant_i/` | Variant I metrics, CSV files, and charts |
+| `outputs/variant_ii/` | Variant II metrics, CSV files, and charts |
+| `artifacts/model_card.json` | Model configuration, selection, and evaluation record |
+| `artifacts/production_model.joblib` | Model loaded by inference and the API |
+| `data/raw/` | Downloaded BAF CSV files; local only |
+| `data/processed/` | Experiment rows exported during training; local only |
+
+## Methods
+
+The project keeps all three BAF variants separate and trains these classifiers on each one:
+
+1. Logistic regression
+2. SGD logistic classification
+3. Random forest
+4. Extra trees
+
+MiniBatch K-Means is used as a second, unsupervised method. The number of clusters is selected using the
+silhouette score.
+
+The temporal evaluation uses:
+
+- Months 0-5 for training
+- Month 6 for validation, model selection, and threshold selection
+- Month 7 as the held-out test set
+
+The threshold is selected on validation data with a target false-positive rate of 5%. Test results are not
+used for model selection. The main metrics are precision, recall, F1, ROC-AUC, PR-AUC, false-positive
+rate, and the confusion matrix. PR-AUC and recall are especially important because fraud is rare.
+
+`customer_age`, `income`, and `employment_status` are used only for diagnostics and are excluded from
+model inputs. Age-group results are reported as a fairness diagnostic.
+
+## Current real-data results
+
+Logistic regression was selected for all three datasets using validation PR-AUC.
+
+| Dataset | Test PR-AUC | Recall | FPR | Threshold |
+| --- | ---: | ---: | ---: | ---: |
+| Base | 0.1495 | 0.4179 | 0.0362 | 0.7901 |
+| Variant I | 0.1412 | 0.4220 | 0.0408 | 0.7728 |
+| Variant II | 0.1621 | 0.4505 | 0.0426 | 0.7885 |
+
+Detailed results are available in each `outputs/<dataset>/model_comparison.csv` file. The JSON files
+contain complete metrics, confusion matrices, and fairness diagnostics. The PNG files contain the report
+figures. `outputs/demo/` is for software testing only and must not be used as assignment evidence.
+
+## Environment setup
+
+### Option A: Conda
 
 ```bash
 conda env create -f environment.yml
 conda activate ai4cyber-fraud
 ```
 
-If the environment already exists:
+To update an existing environment:
 
 ```bash
 conda env update -f environment.yml --prune
 conda activate ai4cyber-fraud
 ```
 
-In PyCharm, open this folder, then choose **Settings > Project > Python Interpreter > Add
-Interpreter > Conda Environment > Existing** and select the `ai4cyber-fraud` interpreter. Mark
-`src` as a Sources Root if PyCharm does not detect the editable package automatically.
+### Option B: Python virtual environment
 
-## 2. Obtain the datasets
+Python 3.11, 3.12, or 3.13 is required.
 
-The upstream source is the Feedzai BAF project and its Kaggle distribution:
+```bash
+python3.11 -m venv .venv
+source .venv/bin/activate
+python -m pip install --upgrade pip
+python -m pip install -e ".[dev,download]"
+```
+
+In PyCharm, open the repository folder and select the environment's Python interpreter under
+**Settings > Project > Python Interpreter**. If imports are not detected, mark `src` as a Sources Root.
+
+## Download the real datasets
+
+The data comes from the Feedzai BAF project:
 
 - <https://github.com/feedzai/bank-account-fraud>
 - <https://www.kaggle.com/datasets/sgpjesus/bank-account-fraud-dataset-neurips-2022>
 
-Create a Kaggle API token using Kaggle's current instructions, configure the token locally, and run:
+Configure Kaggle credentials, then run:
 
 ```bash
 python scripts/download_baf.py
 ```
 
-The required files are placed in `data/raw/`. Raw data is git-ignored. The upstream materials have
-shown differing Creative Commons notices, so confirm the controlling license with the dataset owner or
-tutor before redistributing raw or derived rows. Do not commit Kaggle credentials.
+The following files must exist before real training:
 
-## 3. Run a quick smoke test before the full datasets
+```text
+data/raw/Base.csv
+data/raw/Variant I.csv
+data/raw/Variant II.csv
+```
 
-The following data is generated and BAF-shaped, but it is only for code testing and must not be used in
-the assignment results:
+The raw files are not stored on GitHub because each file is approximately 204 MB and exceeds GitHub's
+normal 100 MB per-file limit. Confirm the dataset licence before redistributing raw or processed data, and
+never commit Kaggle credentials.
+
+## Run a smoke test
+
+The smoke test creates small BAF-shaped data to verify the software. It is not assignment evidence.
 
 ```bash
 python scripts/make_demo_data.py
@@ -85,7 +165,7 @@ python -m ai4cyber.clustering \
   --outputs outputs/demo/base
 ```
 
-## 4. Train the real experiments
+## Train the real experiments
 
 ```bash
 python -m ai4cyber.eda
@@ -93,59 +173,106 @@ python -m ai4cyber.training
 python -m ai4cyber.clustering
 ```
 
-The laptop-safe default uses up to 250,000 training rows and 50,000 rows for each later split, sampled
-with fixed seeds and class/month stratification. This limit is transparent in `configs/training.json`.
-Set the three `max_*_rows` values to `null` only if the machine can train all three million-row variants.
+The laptop-safe configuration samples up to 250,000 training rows and 50,000 validation and test rows
+using fixed seeds and class/month stratification. These limits are recorded in `configs/training.json`.
+Set the three `max_*_rows` values to `null` only on a machine that can process all three million-row
+datasets.
 
-Training produces:
+Training creates:
 
-- `outputs/TRAINING_RUN_LOG.md`: consolidated factual evidence for the team's report.
-- `artifacts/production_model.joblib`: the best Base model selected by validation PR-AUC.
-- `artifacts/model_card.json`: configuration, dataset profiles, selected models, and held-out results.
-- `artifacts/<dataset>/`: all four model artifacts plus that dataset's champion.
-- `outputs/<dataset>/`: JSON/CSV metrics and plots.
-- `data/processed/*_model_data.csv.gz`: exactly the rows/columns used by the experiments, including
-  `_split` so the evaluation can be reproduced.
+- `artifacts/production_model.joblib`: selected Base model used by the API
+- `artifacts/model_card.json`: experiment configuration and selected-model results
+- `artifacts/<dataset>/`: every trained classifier and the dataset champion
+- `outputs/<dataset>/`: metrics, comparisons, and report figures
+- `data/processed/*_model_data.csv.gz`: exact rows used, with a `_split` column
 
-The test month is reported only after model/threshold selection. It is never used to choose a model or
-tune the 5% FPR threshold.
+The full classifier collection and processed data are reproducible local files and are not committed.
 
-## 5. Predict one application
-
-After training:
+## Make a prediction
 
 ```bash
 python -m ai4cyber.inference --input examples/sample_application.json
 ```
 
-The response contains the score, frozen threshold, review label, and five local ablation associations.
-Those associations are not causal explanations.
+The output contains the model score, frozen threshold, deterministic review label, and five local
+one-field-ablation associations. These associations are not causal explanations.
 
-## 6. Run the ML API
+## Run the API
 
 ```bash
 python -m uvicorn ai4cyber.api:app --host 127.0.0.1 --port 8010
 ```
 
-Open <http://127.0.0.1:8010/docs> for interactive endpoint documentation. `POST /predict` loads the
-selected Base classifier and returns its score, frozen review threshold, deterministic review label, and
-local feature-ablation associations. No chatbot, prompt, or generative model is used.
+Available endpoints:
 
-## 7. Run tests
+| Method | Endpoint | Purpose |
+| --- | --- | --- |
+| `GET` | `/` | Service information |
+| `GET` | `/health` | Health and model-load check |
+| `GET` | `/model` | Model metadata |
+| `POST` | `/predict` | Score one application |
+
+Interactive documentation is at <http://127.0.0.1:8010/docs>. Stop the server with `Control+C`.
+
+## Tests and style checks
 
 ```bash
 pytest -q
+ruff check .
 ```
 
-The end-to-end test creates temporary fake data, trains the pipeline, exports processed rows, reloads the
-production artifact, and predicts one case. No real dataset or model artifact is bundled in the source.
+The end-to-end test generates temporary data, trains the pipeline, exports processed rows, reloads the
+production artifact, and performs a prediction.
 
-## Design rationale to use in the team's own explanation
+## Files stored on GitHub
 
-PR-AUC, recall, and FPR matter more than accuracy because fraud is rare. The fixed temporal split tests
-whether a model trained on earlier applications generalizes to later months. Four classifiers provide a
-meaningful algorithm comparison, while clustering reveals applicant-pattern structure without pretending
-that clusters are fraud labels. Each BAF variant stays separate because its bias scenario is part of the
-experiment; merging variants would blur that evidence. The API remains ML-only so every result is
-reproducible from the saved model and deterministic code.
+GitHub contains the source code, tests, configurations, documentation, real experiment metrics and plots,
+the model card, and the small selected production model. The following remain local and are regenerated
+as needed:
+
+- `.venv/`, `.idea/`, caches, and operating-system files
+- `data/raw/`, `data/processed/`, and generated demo data
+- Full random-forest and extra-trees artifacts
+- Demo outputs and demo model artifacts
+
+This keeps the repository small and avoids uploading licensed data or machine-specific files.
+
+## Team Git workflow
+
+Before starting work:
+
+```bash
+git switch main
+git pull
+```
+
+Create a branch for the task:
+
+```bash
+git switch -c feature/short-description
+```
+
+After making and testing changes:
+
+```bash
+git status
+git add .
+git commit -m "Describe the change"
+git push -u origin feature/short-description
+```
+
+Open a pull request on GitHub and ask another team member to review it. Do not commit tokens, raw data,
+virtual environments, or large generated artifacts.
+
+## Troubleshooting
+
+- `No module named uvicorn`: activate the correct environment and run
+  `python -m pip install -e ".[dev,download]"`.
+- `No module named ai4cyber`: install the project in editable mode with the same command, then run commands
+  from the repository root.
+- Missing `data/raw/*.csv`: configure Kaggle and run `python scripts/download_baf.py`.
+- Missing `artifacts/production_model.joblib`: pull the latest `main` branch or run the real training
+  command. For demo artifacts, set `AI4CYBER_MODEL_PATH=artifacts/demo/production_model.joblib`.
+- Port 8010 already in use: select another port, for example `--port 8011`.
+- GitHub rejects a large file: verify it is excluded by `.gitignore`; do not force-add raw datasets.
 

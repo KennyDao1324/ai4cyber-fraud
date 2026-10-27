@@ -1,0 +1,232 @@
+{
+  "config": {
+    "clustering_k_values": [
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "clustering_sample_rows": 30000,
+    "dataset_files": [
+      "Base.csv",
+      "Variant I.csv",
+      "Variant II.csv"
+    ],
+    "excluded_features": [
+      "device_fraud_count"
+    ],
+    "max_test_rows": 50000,
+    "max_train_rows": 250000,
+    "max_validation_rows": 50000,
+    "n_jobs": -1,
+    "protected_features": [
+      "customer_age",
+      "income",
+      "employment_status"
+    ],
+    "random_seed": 42,
+    "target_column": "fraud_bool",
+    "target_false_positive_rate": 0.05,
+    "test_months": [
+      7
+    ],
+    "time_column": "month",
+    "train_months": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "tree_estimators": 160,
+    "tree_max_depth": 16,
+    "validation_months": [
+      6
+    ]
+  },
+  "datasets": [
+    {
+      "champion_artifact": "artifacts/base/champion.joblib",
+      "dataset": "Base",
+      "profile": {
+        "columns": 32,
+        "duplicate_rows": 0,
+        "fraud_count": 11029,
+        "fraud_rate": 0.011029,
+        "fraud_rate_by_month": {
+          "0": 0.011325883418906675,
+          "1": 0.009387243378780755,
+          "2": 0.008745866154666044,
+          "3": 0.009222451900143107,
+          "4": 0.011371200789405674,
+          "5": 0.01182504630289215,
+          "6": 0.013405073589231566,
+          "7": 0.014745515938167962
+        },
+        "missing_cells": 0,
+        "missing_expected_columns": [],
+        "month_counts": {
+          "0": 132440,
+          "1": 127620,
+          "2": 136979,
+          "3": 150936,
+          "4": 127691,
+          "5": 119323,
+          "6": 108168,
+          "7": 96843
+        },
+        "rows": 1000000
+      },
+      "test_metrics": {
+        "accuracy": 0.95578,
+        "confusion_matrix": [
+          [
+            47481,
+            1782
+          ],
+          [
+            429,
+            308
+          ]
+        ],
+        "f1": 0.2178988326848249,
+        "false_negative": 429,
+        "false_positive": 1782,
+        "false_positive_rate": 0.03617319286279764,
+        "pr_auc": 0.14953106338135919,
+        "precision": 0.14736842105263157,
+        "recall": 0.417910447761194,
+        "roc_auc": 0.8682090430861344,
+        "threshold": 0.7900893965854643,
+        "true_negative": 47481,
+        "true_positive": 308
+      },
+      "validation_pr_auc": 0.1364255273949037,
+      "winner": "logistic_regression"
+    },
+    {
+      "champion_artifact": "artifacts/variant_i/champion.joblib",
+      "dataset": "Variant I",
+      "profile": {
+        "columns": 32,
+        "duplicate_rows": 0,
+        "fraud_count": 11029,
+        "fraud_rate": 0.011029,
+        "fraud_rate_by_month": {
+          "0": 0.011325883418906675,
+          "1": 0.009387243378780755,
+          "2": 0.008745866154666044,
+          "3": 0.009222329698286715,
+          "4": 0.011371200789405674,
+          "5": 0.011825145404870854,
+          "6": 0.013405073589231566,
+          "7": 0.014745668201813262
+        },
+        "missing_cells": 0,
+        "missing_expected_columns": [],
+        "month_counts": {
+          "0": 132440,
+          "1": 127620,
+          "2": 136979,
+          "3": 150938,
+          "4": 127691,
+          "5": 119322,
+          "6": 108168,
+          "7": 96842
+        },
+        "rows": 1000000
+      },
+      "test_metrics": {
+        "accuracy": 0.95124,
+        "confusion_matrix": [
+          [
+            47251,
+            2012
+          ],
+          [
+            426,
+            311
+          ]
+        ],
+        "f1": 0.20326797385620915,
+        "false_negative": 426,
+        "false_positive": 2012,
+        "false_positive_rate": 0.04084201124576254,
+        "pr_auc": 0.14124734479648535,
+        "precision": 0.13387860525182954,
+        "recall": 0.42198100407055633,
+        "roc_auc": 0.8653801814870595,
+        "threshold": 0.7728077111499553,
+        "true_negative": 47251,
+        "true_positive": 311
+      },
+      "validation_pr_auc": 0.11717321045209315,
+      "winner": "logistic_regression"
+    },
+    {
+      "champion_artifact": "artifacts/variant_ii/champion.joblib",
+      "dataset": "Variant II",
+      "profile": {
+        "columns": 32,
+        "duplicate_rows": 0,
+        "fraud_count": 11029,
+        "fraud_rate": 0.011029,
+        "fraud_rate_by_month": {
+          "0": 0.011325883418906675,
+          "1": 0.009387243378780755,
+          "2": 0.008745930003358203,
+          "3": 0.0092223907988101,
+          "4": 0.011371200789405674,
+          "5": 0.011824947202574503,
+          "6": 0.013405073589231566,
+          "7": 0.014745668201813262
+        },
+        "missing_cells": 0,
+        "missing_expected_columns": [],
+        "month_counts": {
+          "0": 132440,
+          "1": 127620,
+          "2": 136978,
+          "3": 150937,
+          "4": 127691,
+          "5": 119324,
+          "6": 108168,
+          "7": 96842
+        },
+        "rows": 1000000
+      },
+      "test_metrics": {
+        "accuracy": 0.9499,
+        "confusion_matrix": [
+          [
+            47163,
+            2100
+          ],
+          [
+            405,
+            332
+          ]
+        ],
+        "f1": 0.20952982013253393,
+        "false_negative": 405,
+        "false_positive": 2100,
+        "false_positive_rate": 0.042628341757505635,
+        "pr_auc": 0.1621265544855576,
+        "precision": 0.13651315789473684,
+        "recall": 0.45047489823609227,
+        "roc_auc": 0.8690098014888714,
+        "threshold": 0.7885098403884722,
+        "true_negative": 47163,
+        "true_positive": 332
+      },
+      "validation_pr_auc": 0.17905598077791168,
+      "winner": "logistic_regression"
+    }
+  ],
+  "notice": "Educational decision-support prototype trained on synthetic BAF data. It must not approve, reject, or block a real bank application.",
+  "production_artifact": "artifacts/production_model.joblib",
+  "selection_rule": "Best validation PR-AUC per dataset; production model is Base champion.",
+  "test_data_not_used_for_selection": true
+}
