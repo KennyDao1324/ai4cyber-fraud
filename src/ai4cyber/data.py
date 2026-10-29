@@ -13,7 +13,7 @@ from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
 
 from .config import TrainingConfig
-from .constants import EXPECTED_BAF_COLUMNS
+from .constants import EXPECTED_BAF_COLUMNS, MISSING_SENTINEL_COLUMNS
 
 
 @dataclass
@@ -75,6 +75,9 @@ def _bounded_stratified_sample(
 
 def make_temporal_data(frame: pd.DataFrame, config: TrainingConfig) -> TemporalData:
     """Split records by month and identify model input columns."""
+    partitions = [set(config.train_months), set(config.validation_months), set(config.test_months)]
+    if any(partitions[i] & partitions[j] for i in range(3) for j in range(i + 1, 3)):
+        raise ValueError("Train, validation, and test months must be disjoint")
     train = frame[frame[config.time_column].isin(config.train_months)]
     validation = frame[frame[config.time_column].isin(config.validation_months)]
     test = frame[frame[config.time_column].isin(config.test_months)]
@@ -107,6 +110,15 @@ def make_temporal_data(frame: pd.DataFrame, config: TrainingConfig) -> TemporalD
     return TemporalData(train, validation, test, feature_columns, numeric, categorical)
 
 
+def replace_missing_sentinels(frame: pd.DataFrame) -> pd.DataFrame:
+    """Convert documented -1 sentinels to NaN before preprocessing."""
+    cleaned = frame.copy()
+    cleaned.attrs.update(frame.attrs)
+    for column in sorted(MISSING_SENTINEL_COLUMNS & set(cleaned.columns)):
+        cleaned[column] = cleaned[column].mask(cleaned[column].eq(-1))
+    return cleaned
+
+
 def build_preprocessor(data: TemporalData) -> ColumnTransformer:
     """Build numeric and categorical preprocessing pipelines."""
     numeric_pipeline = Pipeline(
@@ -137,6 +149,21 @@ def build_preprocessor(data: TemporalData) -> ColumnTransformer:
 def dataset_profile(frame: pd.DataFrame, config: TrainingConfig) -> dict:
     """Calculate dataset summary statistics."""
     target = frame[config.target_column]
+    numeric_columns = list(frame.select_dtypes(include="number").columns)
+    minus_one_counts = {
+        column: int(frame[column].eq(-1).sum())
+        for column in numeric_columns
+        if frame[column].eq(-1).any()
+    }
+    sentinel_counts = {
+        column: int(frame[column].eq(-1).sum())
+        for column in sorted(MISSING_SENTINEL_COLUMNS & set(frame.columns))
+    }
+    null_counts = {
+        column: int(count)
+        for column, count in frame.isna().sum().items()
+        if int(count) > 0
+    }
     return {
         "rows": len(frame),
         "columns": len(frame.columns),
@@ -144,6 +171,15 @@ def dataset_profile(frame: pd.DataFrame, config: TrainingConfig) -> dict:
         "fraud_rate": float(target.mean()),
         "duplicate_rows": int(frame.duplicated().sum()),
         "missing_cells": int(frame.isna().sum().sum()),
+        "null_counts": null_counts,
+        "dtypes": {column: str(dtype) for column, dtype in frame.dtypes.items()},
+        "minus_one_counts_all_numeric": minus_one_counts,
+        "sentinel_minus_one_counts": sentinel_counts,
+        "sentinel_minus_one_total": int(sum(sentinel_counts.values())),
+        "missing_cells_after_sentinel_conversion": int(
+            replace_missing_sentinels(frame).isna().sum().sum()
+        ),
+        "missing_sentinel_columns": sorted(MISSING_SENTINEL_COLUMNS),
         "month_counts": {
             str(key): int(value)
             for key, value in frame[config.time_column].value_counts().sort_index().items()
@@ -153,4 +189,5 @@ def dataset_profile(frame: pd.DataFrame, config: TrainingConfig) -> dict:
             for key, value in frame.groupby(config.time_column)[config.target_column].mean().items()
         },
         "missing_expected_columns": frame.attrs.get("missing_expected_columns", []),
+        "additional_columns": sorted(set(frame.columns) - EXPECTED_BAF_COLUMNS),
     }

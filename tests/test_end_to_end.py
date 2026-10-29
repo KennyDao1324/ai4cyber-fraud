@@ -1,3 +1,4 @@
+import json
 from dataclasses import replace
 
 from ai4cyber.config import TrainingConfig
@@ -35,7 +36,12 @@ def test_train_and_predict_end_to_end(tmp_path):
         tmp_path / "processed",
     )
     assert card["test_data_not_used_for_selection"] is True
+    assert card["leakage_controls"]["development_months"] == [0, 1, 2, 3, 4, 5]
+    assert card["leakage_controls"]["test_months"] == [6, 7]
     assert (tmp_path / "processed" / "base_model_data.csv.gz").exists()
+    profile = json.loads((tmp_path / "outputs" / "base" / "dataset_profile.json").read_text())
+    assert "dtypes" in profile
+    assert "sentinel_minus_one_counts" in profile
 
     service = ModelService(tmp_path / "artifacts" / "production_model.joblib")
     sample = frame.iloc[0][service.feature_columns].to_dict()

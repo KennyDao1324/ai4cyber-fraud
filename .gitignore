@@ -19,10 +19,19 @@ artifacts/*
 outputs/*
 !outputs/.gitkeep
 !outputs/TRAINING_RUN_LOG.md
+!outputs/leakage_checklist.json
+!outputs/profiling/
+!outputs/profiling/**
 !outputs/base/
 !outputs/base/**
 !outputs/variant_i/
 !outputs/variant_i/**
 !outputs/variant_ii/
 !outputs/variant_ii/**
+!outputs/variant_iii/
+!outputs/variant_iii/**
+!outputs/variant_iv/
+!outputs/variant_iv/**
+!outputs/variant_v/
+!outputs/variant_v/**
 

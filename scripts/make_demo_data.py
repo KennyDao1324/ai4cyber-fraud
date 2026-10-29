@@ -69,7 +69,14 @@ def main() -> None:
     args = parser.parse_args()
     args.destination.mkdir(parents=True, exist_ok=True)
     for index, (name, shift) in enumerate(
-        [("Base.csv", 0.0), ("Variant I.csv", 0.015), ("Variant II.csv", 0.03)]
+        [
+            ("Base.csv", 0.0),
+            ("Variant I.csv", 0.015),
+            ("Variant II.csv", 0.03),
+            ("Variant III.csv", 0.045),
+            ("Variant IV.csv", 0.06),
+            ("Variant V.csv", 0.075),
+        ]
     ):
         make_frame(args.rows, 42 + index, shift).to_csv(args.destination / name, index=False)
     print(f"Demo-only data written to {args.destination.resolve()}")

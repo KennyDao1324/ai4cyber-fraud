@@ -27,6 +27,7 @@ download = ["kaggle>=1.6,<2"]
 ai4cyber-train = "ai4cyber.training:main"
 ai4cyber-cluster = "ai4cyber.clustering:main"
 ai4cyber-predict = "ai4cyber.inference:main"
+ai4cyber-profile = "ai4cyber.profiling:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]

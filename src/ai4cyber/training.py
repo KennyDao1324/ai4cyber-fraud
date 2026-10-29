@@ -22,8 +22,14 @@ from sklearn.metrics import PrecisionRecallDisplay
 from sklearn.pipeline import Pipeline
 
 from .config import TrainingConfig
-from .constants import SYNTHETIC_DATA_NOTICE
-from .data import build_preprocessor, dataset_profile, load_baf_csv, make_temporal_data
+from .constants import MISSING_SENTINEL_COLUMNS, SYNTHETIC_DATA_NOTICE
+from .data import (
+    build_preprocessor,
+    dataset_profile,
+    load_baf_csv,
+    make_temporal_data,
+    replace_missing_sentinels,
+)
 from .metrics import binary_metrics, fairness_by_age, threshold_at_fpr
 
 
@@ -146,9 +152,10 @@ def train_dataset(
     artifact_dir.mkdir(parents=True, exist_ok=True)
     output_dir.mkdir(parents=True, exist_ok=True)
 
-    frame = load_baf_csv(dataset_path, config)
+    raw_frame = load_baf_csv(dataset_path, config)
+    profile = dataset_profile(raw_frame, config)
+    frame = replace_missing_sentinels(raw_frame)
     temporal = make_temporal_data(frame, config)
-    profile = dataset_profile(frame, config)
     X_train = temporal.train[temporal.feature_columns]
     y_train = temporal.train[config.target_column]
     X_validation = temporal.validation[temporal.feature_columns]
@@ -202,6 +209,12 @@ def train_dataset(
             "numeric_columns": temporal.numeric_columns,
             "categorical_columns": temporal.categorical_columns,
             "protected_features_excluded": config.protected_features,
+            "missing_sentinel_columns": sorted(MISSING_SENTINEL_COLUMNS),
+            "split_policy": {
+                "train_months": config.train_months,
+                "validation_months": config.validation_months,
+                "test_months": config.test_months,
+            },
             "global_feature_importance": importance[:20],
             "notice": SYNTHETIC_DATA_NOTICE,
         }
@@ -260,15 +273,33 @@ def run_training(
     base = next((item for item in summaries if item["dataset"].lower() == "base"), summaries[0])
     production_path = artifact_root / "production_model.joblib"
     shutil.copy2(base["champion_artifact"], production_path)
+    leakage_controls = {
+        "development_months": sorted(set(config.train_months + config.validation_months)),
+        "test_months": sorted(config.test_months),
+        "temporal_partitions_disjoint": not (
+            set(config.train_months) & set(config.validation_months)
+            or set(config.train_months) & set(config.test_months)
+            or set(config.validation_months) & set(config.test_months)
+        ),
+        "preprocessing_fit_scope": "sklearn Pipeline fitted on training rows only",
+        "imbalance_control": "class_weight applied by estimators during training only",
+        "target_excluded_from_features": True,
+        "time_column_excluded_from_features": True,
+        "protected_features_excluded_from_models": config.protected_features,
+        "test_data_used_for_selection": False,
+        "fixed_random_seed": config.random_seed,
+    }
     model_card = {
         "selection_rule": "Best validation PR-AUC per dataset; production model is Base champion.",
         "test_data_not_used_for_selection": True,
         "production_artifact": str(production_path),
         "datasets": summaries,
         "config": config.to_dict(),
+        "leakage_controls": leakage_controls,
         "notice": SYNTHETIC_DATA_NOTICE,
     }
     _json_dump(model_card, artifact_root / "model_card.json")
+    _json_dump(leakage_controls, output_root / "leakage_checklist.json")
     return model_card
 
 

@@ -35,6 +35,26 @@ EXPECTED_BAF_COLUMNS = {
     "month",
 }
 
+# These fields use -1 as a documented missing-value sentinel. Other numeric
+# fields, such as credit_risk_score, may contain legitimate negative values.
+MISSING_SENTINEL_COLUMNS = {
+    "prev_address_months_count",
+    "current_address_months_count",
+    "intended_balcon_amount",
+    "bank_months_count",
+    "session_length_in_minutes",
+    "device_distinct_emails_8w",
+}
+
+BAF_VARIANT_PURPOSES = {
+    "Base": "Reference dataset with no sampling bias intentionally introduced.",
+    "Variant I": "Group-size disparity stress test.",
+    "Variant II": "Fraud-prevalence disparity stress test.",
+    "Variant III": "Group-dependent class-separability stress test.",
+    "Variant IV": "Temporal prevalence-disparity stress test.",
+    "Variant V": "Temporal class-separability stress test.",
+}
+
 SYNTHETIC_DATA_NOTICE = (
     "Educational decision-support prototype trained on synthetic BAF data. "
     "It must not approve, reject, or block a real bank application."

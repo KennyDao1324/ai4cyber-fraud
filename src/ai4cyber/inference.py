@@ -11,6 +11,7 @@ import joblib
 import numpy as np
 import pandas as pd
 
+from .constants import MISSING_SENTINEL_COLUMNS
 from .decision import make_review_decision
 
 
@@ -33,7 +34,13 @@ class ModelService:
         unknown = sorted(set(features) - set(self.feature_columns))
         if unknown:
             raise ValueError(f"Unknown model fields: {unknown}")
-        return pd.DataFrame([{column: features[column] for column in self.feature_columns}])
+        frame = pd.DataFrame([{column: features[column] for column in self.feature_columns}])
+        sentinel_columns = set(
+            self.artifact.get("missing_sentinel_columns", MISSING_SENTINEL_COLUMNS)
+        )
+        for column in sentinel_columns & set(frame.columns):
+            frame[column] = frame[column].mask(frame[column].eq(-1))
+        return frame
 
     def _local_ablation_factors(self, frame: pd.DataFrame, base_score: float) -> list[dict]:
         """Estimate local feature effects with one-field ablation."""

@@ -11,17 +11,26 @@ from typing import Any
 @dataclass(frozen=True)
 class TrainingConfig:
     dataset_files: list[str] = field(
-        default_factory=lambda: ["Base.csv", "Variant I.csv", "Variant II.csv"]
+        default_factory=lambda: [
+            "Base.csv",
+            "Variant I.csv",
+            "Variant II.csv",
+            "Variant III.csv",
+            "Variant IV.csv",
+            "Variant V.csv",
+        ]
     )
     target_column: str = "fraud_bool"
     time_column: str = "month"
-    train_months: list[int] = field(default_factory=lambda: [0, 1, 2, 3, 4, 5])
-    validation_months: list[int] = field(default_factory=lambda: [6])
-    test_months: list[int] = field(default_factory=lambda: [7])
+    train_months: list[int] = field(default_factory=lambda: [0, 1, 2, 3, 4])
+    validation_months: list[int] = field(default_factory=lambda: [5])
+    test_months: list[int] = field(default_factory=lambda: [6, 7])
     protected_features: list[str] = field(
         default_factory=lambda: ["customer_age", "income", "employment_status"]
     )
-    excluded_features: list[str] = field(default_factory=lambda: ["device_fraud_count"])
+    excluded_features: list[str] = field(
+        default_factory=lambda: ["device_fraud_count", "x1", "x2"]
+    )
     max_train_rows: int | None = 250_000
     max_validation_rows: int | None = 50_000
     max_test_rows: int | None = 50_000

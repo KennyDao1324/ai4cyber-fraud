@@ -18,11 +18,11 @@ from sklearn.decomposition import TruncatedSVD
 from sklearn.metrics import silhouette_score
 
 from .config import TrainingConfig
-from .data import build_preprocessor, load_baf_csv, make_temporal_data
+from .data import build_preprocessor, load_baf_csv, make_temporal_data, replace_missing_sentinels
 
 
 def run_clustering(dataset: Path, config: TrainingConfig, artifacts: Path, outputs: Path) -> dict:
-    frame = load_baf_csv(dataset, config)
+    frame = replace_missing_sentinels(load_baf_csv(dataset, config))
     temporal = make_temporal_data(frame, config)
     sample_n = min(config.clustering_sample_rows, len(temporal.train))
     sample = temporal.train.sample(n=sample_n, random_state=config.random_seed).reset_index(
