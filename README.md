@@ -1,7 +1,7 @@
 # AI4Cyber: Bank Account Opening Fraud Screening
 
 This repository contains the machine-learning implementation for detecting potentially fraudulent bank
-account applications. It trains and compares four classifiers on three variants of the Bank Account
+account applications. It trains and compares four classifiers on all six datasets in the Bank Account
 Fraud (BAF) dataset, evaluates the models using a time-based split, performs exploratory clustering, and
 serves the selected model through a FastAPI application.
 
@@ -43,10 +43,18 @@ needed when retraining.
 | `configs/demo_training.json` | Small smoke-test settings |
 | `examples/sample_application.json` | Example prediction input |
 | `tests/` | Unit, API, and end-to-end tests |
+| `notebooks/baf_profiling.ipynb` | Reproducible Base and Variants I-V profiling notebook |
+| `docs/DATASET_PROVENANCE.md` | Source, version, licence, citation, and variant rationale |
+| `docs/canvas_dataset_archive.json` | Hash and integrity evidence for the separately supplied course archive |
+| `docs/LEAKAGE_CHECKLIST.md` | Auditable data-leakage controls |
 | `outputs/TRAINING_RUN_LOG.md` | Consolidated experiment log for the team |
+| `outputs/profiling/` | Per-dataset dtypes, missing codes, hashes, and Base comparison |
 | `outputs/base/` | Base dataset metrics, CSV files, and charts |
 | `outputs/variant_i/` | Variant I metrics, CSV files, and charts |
 | `outputs/variant_ii/` | Variant II metrics, CSV files, and charts |
+| `outputs/variant_iii/` | Variant III metrics, CSV files, and charts |
+| `outputs/variant_iv/` | Variant IV metrics, CSV files, and charts |
+| `outputs/variant_v/` | Variant V metrics, CSV files, and charts |
 | `artifacts/model_card.json` | Model configuration, selection, and evaluation record |
 | `artifacts/production_model.joblib` | Model loaded by inference and the API |
 | `data/raw/` | Downloaded BAF CSV files; local only |
@@ -54,7 +62,7 @@ needed when retraining.
 
 ## Methods
 
-The project keeps all three BAF variants separate and trains these classifiers on each one:
+The project keeps Base and Variants I-V separate and trains these classifiers on each one:
 
 1. Logistic regression
 2. SGD logistic classification
@@ -66,26 +74,32 @@ silhouette score.
 
 The temporal evaluation uses:
 
-- Months 0-5 for training
-- Month 6 for validation, model selection, and threshold selection
-- Month 7 as the held-out test set
+- Months 0-4 for training
+- Month 5 for validation, model selection, and threshold selection
+- Months 6-7 as the held-out test set
+
+This makes months 0-5 the complete development period and reserves months 6-7 for final testing.
 
 The threshold is selected on validation data with a target false-positive rate of 5%. Test results are not
 used for model selection. The main metrics are precision, recall, F1, ROC-AUC, PR-AUC, false-positive
 rate, and the confusion matrix. PR-AUC and recall are especially important because fraud is rare.
 
 `customer_age`, `income`, and `employment_status` are used only for diagnostics and are excluded from
-model inputs. Age-group results are reported as a fairness diagnostic.
+model inputs. Age-group results are reported as a fairness diagnostic. The synthetic `x1` and `x2`
+fields in Variants III and V are also excluded to avoid artificial shortcut learning.
 
 ## Current real-data results
 
-Logistic regression was selected for all three datasets using validation PR-AUC.
+Logistic regression was selected for all six datasets using validation PR-AUC.
 
 | Dataset | Test PR-AUC | Recall | FPR | Threshold |
 | --- | ---: | ---: | ---: | ---: |
-| Base | 0.1495 | 0.4179 | 0.0362 | 0.7901 |
-| Variant I | 0.1412 | 0.4220 | 0.0408 | 0.7728 |
-| Variant II | 0.1621 | 0.4505 | 0.0426 | 0.7885 |
+| Base | 0.1695 | 0.5142 | 0.0460 | 0.7462 |
+| Variant I | 0.1404 | 0.4145 | 0.0429 | 0.7392 |
+| Variant II | 0.1598 | 0.4687 | 0.0474 | 0.7390 |
+| Variant III | 0.1132 | 0.4845 | 0.0532 | 0.7755 |
+| Variant IV | 0.1087 | 0.4208 | 0.0545 | 0.7641 |
+| Variant V | 0.0980 | 0.4499 | 0.0511 | 0.7609 |
 
 Detailed results are available in each `outputs/<dataset>/model_comparison.csv` file. The JSON files
 contain complete metrics, confusion matrices, and fairness diagnostics. The PNG files contain the report
@@ -134,17 +148,24 @@ Configure Kaggle credentials, then run:
 python scripts/download_baf.py
 ```
 
+The downloader verifies Kaggle version 2 and the CC BY-NC-SA 4.0 dataset licence before accepting the
+files. Full provenance, version history, citation, and licence separation are recorded in
+`docs/DATASET_PROVENANCE.md`.
+
 The following files must exist before real training:
 
 ```text
 data/raw/Base.csv
 data/raw/Variant I.csv
 data/raw/Variant II.csv
+data/raw/Variant III.csv
+data/raw/Variant IV.csv
+data/raw/Variant V.csv
 ```
 
-The raw files are not stored on GitHub because each file is approximately 204 MB and exceeds GitHub's
-normal 100 MB per-file limit. Confirm the dataset licence before redistributing raw or processed data, and
-never commit Kaggle credentials.
+The raw suite is approximately 1.36 GB uncompressed, and each CSV exceeds GitHub's normal 100 MB
+per-file limit. Do not redistribute raw or processed data without following CC BY-NC-SA 4.0, and never
+commit Kaggle credentials.
 
 ## Run a smoke test
 
@@ -168,15 +189,16 @@ python -m ai4cyber.clustering \
 ## Train the real experiments
 
 ```bash
+python -m ai4cyber.profiling
 python -m ai4cyber.eda
 python -m ai4cyber.training
 python -m ai4cyber.clustering
+python scripts/build_training_log.py
 ```
 
 The laptop-safe configuration samples up to 250,000 training rows and 50,000 validation and test rows
 using fixed seeds and class/month stratification. These limits are recorded in `configs/training.json`.
-Set the three `max_*_rows` values to `null` only on a machine that can process all three million-row
-datasets.
+Set the three `max_*_rows` values to `null` only on a machine that can process all six million rows.
 
 Training creates:
 
