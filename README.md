@@ -12,6 +12,14 @@ a verified probability of fraud, and the prototype does not approve, reject, or 
 > assessment material. Confirm permitted use with the tutor, disclose assistance where required, and
 > make sure every team member can explain and reproduce the submitted work.
 
+## Dataset source
+
+- [Bank Account Fraud Dataset Suite (NeurIPS 2022) on Kaggle](https://www.kaggle.com/datasets/sgpjesus/bank-account-fraud-dataset-neurips-2022)
+- [Official BAF documentation, datasheet, and citation](https://github.com/feedzai/bank-account-fraud)
+
+The BAF data is provided under CC BY-NC-SA 4.0. Keep the source, licence, and citation with any analysis
+or derived dataset, and do not commit the large raw CSV files to this repository.
+
 ## Quick start
 
 ```bash
