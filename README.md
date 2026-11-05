@@ -134,9 +134,24 @@ Logistic regression was selected for all six datasets using validation PR-AUC.
 | Variant IV | 0.1087 | 0.4208 | 0.0545 | 0.7641 |
 | Variant V | 0.0980 | 0.4499 | 0.0511 | 0.7609 |
 
-Detailed results are available in each `outputs/<dataset>/model_comparison.csv` file. The JSON files
-contain complete metrics, confusion matrices, and fairness diagnostics. The PNG files contain the report
-figures. `outputs/demo/` is for software testing only and must not be used as assignment evidence.
+### Evaluation files and chart previews
+
+| Dataset | Results folder | Model comparison | Precision-recall curves |
+| --- | --- | --- | --- |
+| Base | [Open files](outputs/base/) | [View chart](outputs/base/model_comparison.png) | [View chart](outputs/base/precision_recall_curves.png) |
+| Variant I | [Open files](outputs/variant_i/) | [View chart](outputs/variant_i/model_comparison.png) | [View chart](outputs/variant_i/precision_recall_curves.png) |
+| Variant II | [Open files](outputs/variant_ii/) | [View chart](outputs/variant_ii/model_comparison.png) | [View chart](outputs/variant_ii/precision_recall_curves.png) |
+| Variant III | [Open files](outputs/variant_iii/) | [View chart](outputs/variant_iii/model_comparison.png) | [View chart](outputs/variant_iii/precision_recall_curves.png) |
+| Variant IV | [Open files](outputs/variant_iv/) | [View chart](outputs/variant_iv/model_comparison.png) | [View chart](outputs/variant_iv/precision_recall_curves.png) |
+| Variant V | [Open files](outputs/variant_v/) | [View chart](outputs/variant_v/model_comparison.png) | [View chart](outputs/variant_v/precision_recall_curves.png) |
+
+The JSON files contain complete metrics, confusion matrices, and fairness diagnostics. Start from the
+[evaluation guide](evaluation/README.md) for a full results index. `outputs/demo/` is for software testing
+only and must not be used as assignment evidence.
+
+![BAF Base model comparison](outputs/base/model_comparison.png)
+
+![BAF Base precision-recall curves](outputs/base/precision_recall_curves.png)
 
 ## Environment setup
 
