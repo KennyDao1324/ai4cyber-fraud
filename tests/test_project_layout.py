@@ -13,6 +13,8 @@ def test_team_workflow_folders_exist():
         "utils",
     }
     assert all((root / name).is_dir() for name in required)
-    assert (root / "dataset" / "raw").resolve() == (root / "data" / "raw").resolve()
+    assert (root / "dataset" / "Base.csv").resolve() == (root / "data" / "raw" / "Base.csv").resolve()
+    assert (root / "checkpoint" / "production_model.joblib").suffix == ".joblib"
+    assert (root / "preprocessed_df" / "manifest.json").is_file()
     assert (root / "evaluation" / "results").resolve() == (root / "outputs").resolve()
 

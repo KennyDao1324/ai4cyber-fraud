@@ -5,6 +5,7 @@
 preprocessed_df/*
 !preprocessed_df/.gitkeep
 !preprocessed_df/README.md
+!preprocessed_df/manifest.json
 __pycache__/
 *.py[cod]
 .pytest_cache/

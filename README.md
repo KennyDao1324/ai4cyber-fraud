@@ -32,10 +32,10 @@ needed when retraining.
 | Folder | Purpose |
 | --- | --- |
 | `checkpoint/` | Production model and model-card links |
-| `dataset/` | Local raw-dataset access and dataset notes |
-| `evaluation/` | Evaluation entrypoint and generated result access |
+| `dataset/` | Direct `.csv` access to Base and Variants I-V |
+| `evaluation/` | Metrics, CSV summaries, and evaluation charts |
 | `preprocess_data/` | Dataset validation and profiling entrypoint |
-| `preprocessed_df/` | Generated sampled dataframes used by training |
+| `preprocessed_df/` | Train-ready `.csv.gz` tables with split labels |
 | `training_model/` | Main model-training entrypoint |
 | `utils/` | Shared paths used by the workflow scripts |
 
