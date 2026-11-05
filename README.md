@@ -27,6 +27,26 @@ Open <http://127.0.0.1:8010/docs> to use the API. The small selected production 
 repository, so inference and the API work after the dependencies are installed. The raw datasets are only
 needed when retraining.
 
+## Standard team folder layout
+
+| Folder | Purpose |
+| --- | --- |
+| `checkpoint/` | Production model and model-card links |
+| `dataset/` | Local raw-dataset access and dataset notes |
+| `evaluation/` | Evaluation entrypoint and generated result access |
+| `preprocess_data/` | Dataset validation and profiling entrypoint |
+| `preprocessed_df/` | Generated sampled dataframes used by training |
+| `training_model/` | Main model-training entrypoint |
+| `utils/` | Shared paths used by the workflow scripts |
+
+Use the standardized workflow from the project root:
+
+```bash
+python preprocess_data/run.py
+python training_model/train.py
+python evaluation/evaluate.py
+```
+
 ## Project map
 
 | Location | Purpose |

@@ -1,6 +1,10 @@
 .idea/
 .venv/
 .DS_Store
+
+preprocessed_df/*
+!preprocessed_df/.gitkeep
+!preprocessed_df/README.md
 __pycache__/
 *.py[cod]
 .pytest_cache/
