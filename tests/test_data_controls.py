@@ -14,6 +14,8 @@ def test_missing_sentinels_are_profiled_and_cleaned_selectively():
     frame = make_frame(800, seed=23)
     frame.loc[0, "prev_address_months_count"] = -1
     frame.loc[0, "credit_risk_score"] = -1
+    frame.loc[1, "intended_balcon_amount"] = -0.25
+    frame.loc[2, "intended_balcon_amount"] = -15.0
 
     profile = dataset_profile(frame, TrainingConfig())
     cleaned = replace_missing_sentinels(frame)
@@ -22,7 +24,11 @@ def test_missing_sentinels_are_profiled_and_cleaned_selectively():
     assert profile["sentinel_minus_one_counts"]["prev_address_months_count"] >= 1
     assert profile["minus_one_counts_all_numeric"]["credit_risk_score"] >= 1
     assert np.isnan(cleaned.loc[0, "prev_address_months_count"])
+    assert np.isnan(cleaned.loc[1, "intended_balcon_amount"])
+    assert np.isnan(cleaned.loc[2, "intended_balcon_amount"])
     assert cleaned.loc[0, "credit_risk_score"] == -1
+    assert profile["negative_missing_counts"]["intended_balcon_amount"] >= 2
+    assert profile["effective_missing_sentinel_counts"]["intended_balcon_amount"] >= 2
 
 
 def test_temporal_development_and_test_policy_is_disjoint():

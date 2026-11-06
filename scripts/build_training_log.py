@@ -52,13 +52,14 @@ def build_log(model_card_path: Path, profile_path: Path) -> str:
         f"- Licence: {source['license']}",
         f"- Source: {source['source_url']}",
         "",
-        "| Dataset | Rows | Columns | Fraud rate | Documented `-1` sentinels | SHA-256 |",
+        "| Dataset | Rows | Columns | Fraud rate | Effective missing codes | SHA-256 |",
         "| --- | ---: | ---: | ---: | ---: | --- |",
     ]
     for profile in profiles["profiles"]:
         lines.append(
             f"| {profile['dataset']} | {profile['rows']:,} | {profile['columns']} | "
-            f"{profile['fraud_rate']:.4%} | {profile['sentinel_minus_one_total']:,} | "
+            f"{profile['fraud_rate']:.4%} | "
+            f"{sum(profile['effective_missing_sentinel_counts'].values()):,} | "
             f"`{profile['sha256']}` |"
         )
 
@@ -72,13 +73,15 @@ def build_log(model_card_path: Path, profile_path: Path) -> str:
             "",
             "## Data preparation and leakage controls",
             "",
-            "- Documented `-1` sentinels are converted to missing values before preprocessing.",
+            "- Every negative `intended_balcon_amount` value is converted to missing before preprocessing.",
+            "- Exact `-1` sentinels are converted for the other documented fields.",
             "- Median numeric imputation and most-frequent categorical imputation are fitted on training rows only.",
             "- Categorical fields use one-hot encoding with unknown-category handling.",
             "- Class imbalance is handled through estimator class weights; no pre-split resampling is used.",
             "- Target, month, protected diagnostics, `device_fraud_count`, `x1`, and `x2` are excluded from predictors.",
             "- Sampling is stratified by month and label with fixed seed 42.",
             "- Thresholds and model winners use validation data only.",
+            "- The age fairness diagnostic compares customers under 50 with customers aged 50 or over.",
             "- Full checklist: `docs/LEAKAGE_CHECKLIST.md` and `outputs/leakage_checklist.json`.",
             "",
             "## Champion results on held-out months 6-7",

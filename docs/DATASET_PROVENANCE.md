@@ -23,6 +23,11 @@ Raw CSV files are not redistributed in this repository. `outputs/profiling/profi
 records the SHA-256 digest, byte size, schema, dtypes, missing-code counts, and profile for every local
 BAF file used in the experiment.
 
+The official datasheet defines `customer_age` as age rounded to decade and uses the groups below 50 and
+50 or over for its age fairness study. It also states that every negative value in
+`intended_balcon_amount` represents missing data. The preprocessing and fairness reports implement those
+definitions directly.
+
 ## Required files
 
 - `Base.csv`

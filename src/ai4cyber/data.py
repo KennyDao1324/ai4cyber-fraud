@@ -13,7 +13,11 @@ from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
 
 from .config import TrainingConfig
-from .constants import EXPECTED_BAF_COLUMNS, MISSING_SENTINEL_COLUMNS
+from .constants import (
+    ALL_NEGATIVE_MISSING_COLUMNS,
+    EXPECTED_BAF_COLUMNS,
+    MISSING_SENTINEL_COLUMNS,
+)
 
 
 @dataclass
@@ -111,11 +115,14 @@ def make_temporal_data(frame: pd.DataFrame, config: TrainingConfig) -> TemporalD
 
 
 def replace_missing_sentinels(frame: pd.DataFrame) -> pd.DataFrame:
-    """Convert documented -1 sentinels to NaN before preprocessing."""
+    """Convert documented missing-value sentinels to NaN before preprocessing."""
     cleaned = frame.copy()
     cleaned.attrs.update(frame.attrs)
     for column in sorted(MISSING_SENTINEL_COLUMNS & set(cleaned.columns)):
-        cleaned[column] = cleaned[column].mask(cleaned[column].eq(-1))
+        if column in ALL_NEGATIVE_MISSING_COLUMNS:
+            cleaned[column] = cleaned[column].mask(cleaned[column].lt(0))
+        else:
+            cleaned[column] = cleaned[column].mask(cleaned[column].eq(-1))
     return cleaned
 
 
@@ -159,6 +166,18 @@ def dataset_profile(frame: pd.DataFrame, config: TrainingConfig) -> dict:
         column: int(frame[column].eq(-1).sum())
         for column in sorted(MISSING_SENTINEL_COLUMNS & set(frame.columns))
     }
+    negative_missing_counts = {
+        column: int(frame[column].lt(0).sum())
+        for column in sorted(ALL_NEGATIVE_MISSING_COLUMNS & set(frame.columns))
+    }
+    effective_sentinel_counts = {
+        column: (
+            negative_missing_counts[column]
+            if column in negative_missing_counts
+            else sentinel_counts[column]
+        )
+        for column in sorted(MISSING_SENTINEL_COLUMNS & set(frame.columns))
+    }
     null_counts = {
         column: int(count)
         for column, count in frame.isna().sum().items()
@@ -176,6 +195,12 @@ def dataset_profile(frame: pd.DataFrame, config: TrainingConfig) -> dict:
         "minus_one_counts_all_numeric": minus_one_counts,
         "sentinel_minus_one_counts": sentinel_counts,
         "sentinel_minus_one_total": int(sum(sentinel_counts.values())),
+        "negative_missing_counts": negative_missing_counts,
+        "effective_missing_sentinel_counts": effective_sentinel_counts,
+        "missing_value_policy": {
+            "intended_balcon_amount": "all negative values are converted to missing",
+            "other_documented_sentinel_columns": "exactly -1 is converted to missing",
+        },
         "missing_cells_after_sentinel_conversion": int(
             replace_missing_sentinels(frame).isna().sum().sum()
         ),

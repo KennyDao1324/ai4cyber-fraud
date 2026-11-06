@@ -15,6 +15,7 @@ __pycache__/
 .env
 data/raw/*.csv
 data/processed/*
+dataset/Base_final_model_data.csv
 data/demo/
 data/demo_processed/
 artifacts/*

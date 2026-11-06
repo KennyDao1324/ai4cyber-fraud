@@ -113,6 +113,16 @@ The project keeps Base and Variants I-V separate and trains these classifiers on
 MiniBatch K-Means is used as a second, unsupervised method. The number of clusters is selected using the
 silhouette score.
 
+The two logistic models provide interpretable and scalable linear baselines for sparse one-hot features,
+while random forest and extra trees test nonlinear interactions with two different kinds of tree
+randomization. The tree settings (160 estimators and maximum depth 16) are a fixed laptop-safe compromise
+for stable ensemble estimates, runtime, memory, and artifact size; they are not claimed to be the result of
+an exhaustive hyperparameter search.
+
+LightGBM and XGBoost were not run in this BAF repository. The experiment stays within scikit-learn to keep
+the setup reproducible and CPU-friendly without optional compiled dependencies. The separate IEEE project
+uses scikit-learn's `HistGradientBoostingClassifier` as the boosted-tree experiment.
+
 The temporal evaluation uses:
 
 - Months 0-4 for training
@@ -126,8 +136,13 @@ used for model selection. The main metrics are precision, recall, F1, ROC-AUC, P
 rate, and the confusion matrix. PR-AUC and recall are especially important because fraud is rare.
 
 `customer_age`, `income`, and `employment_status` are used only for diagnostics and are excluded from
-model inputs. Age-group results are reported as a fairness diagnostic. The synthetic `x1` and `x2`
-fields in Variants III and V are also excluded to avoid artificial shortcut learning.
+model inputs. The age fairness diagnostic compares customers under 50 with customers aged 50 or over,
+matching the BAF paper's decade-band split. The synthetic `x1` and `x2` fields in Variants III and V are
+also excluded to avoid artificial shortcut learning.
+
+Before splitting, every negative `intended_balcon_amount` value is treated as missing, as specified by the
+BAF datasheet. The documented exact `-1` sentinel is converted for the other applicable fields. Numeric
+and categorical imputers remain inside each sklearn pipeline and are fitted on training rows only.
 
 ## Current real-data results
 
@@ -135,12 +150,12 @@ Logistic regression was selected for all six datasets using validation PR-AUC.
 
 | Dataset | Test PR-AUC | Recall | FPR | Threshold |
 | --- | ---: | ---: | ---: | ---: |
-| Base | 0.1695 | 0.5142 | 0.0460 | 0.7462 |
-| Variant I | 0.1404 | 0.4145 | 0.0429 | 0.7392 |
-| Variant II | 0.1598 | 0.4687 | 0.0474 | 0.7390 |
-| Variant III | 0.1132 | 0.4845 | 0.0532 | 0.7755 |
-| Variant IV | 0.1087 | 0.4208 | 0.0545 | 0.7641 |
-| Variant V | 0.0980 | 0.4499 | 0.0511 | 0.7609 |
+| Base | 0.1711 | 0.5114 | 0.0449 | 0.7494 |
+| Variant I | 0.1394 | 0.4131 | 0.0423 | 0.7405 |
+| Variant II | 0.1610 | 0.4658 | 0.0472 | 0.7397 |
+| Variant III | 0.1130 | 0.4918 | 0.0532 | 0.7755 |
+| Variant IV | 0.1088 | 0.4226 | 0.0542 | 0.7645 |
+| Variant V | 0.0982 | 0.4444 | 0.0502 | 0.7640 |
 
 ### Evaluation files and chart previews
 
@@ -263,6 +278,15 @@ Training creates:
 - `artifacts/<dataset>/`: every trained classifier and the dataset champion
 - `outputs/<dataset>/`: metrics, comparisons, and report figures
 - `data/processed/*_model_data.csv.gz`: exact rows used, with a `_split` column
+
+For the assignment ZIP, export the exact processed Base rows as an ordinary CSV plus a data dictionary:
+
+```bash
+python scripts/export_base_for_zip.py
+```
+
+This creates `dataset/Base_final_model_data.csv` (local and Git-ignored),
+`dataset/Base_final_model_data_dictionary.csv`, and `dataset/Base_final_model_data_manifest.json`.
 
 The full classifier collection and processed data are reproducible local files and are not committed.
 

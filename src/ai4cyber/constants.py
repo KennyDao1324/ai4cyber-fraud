@@ -35,8 +35,9 @@ EXPECTED_BAF_COLUMNS = {
     "month",
 }
 
-# These fields use -1 as a documented missing-value sentinel. Other numeric
-# fields, such as credit_risk_score, may contain legitimate negative values.
+# These fields use documented negative missing-value sentinels. All use exactly
+# -1 except intended_balcon_amount, for which every negative value means missing.
+# Other numeric fields, such as credit_risk_score, may contain legitimate negatives.
 MISSING_SENTINEL_COLUMNS = {
     "prev_address_months_count",
     "current_address_months_count",
@@ -45,6 +46,8 @@ MISSING_SENTINEL_COLUMNS = {
     "session_length_in_minutes",
     "device_distinct_emails_8w",
 }
+
+ALL_NEGATIVE_MISSING_COLUMNS = {"intended_balcon_amount"}
 
 BAF_VARIANT_PURPOSES = {
     "Base": "Reference dataset with no sampling bias intentionally introduced.",

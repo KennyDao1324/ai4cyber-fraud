@@ -14,7 +14,7 @@ generated at `outputs/leakage_checklist.json` during training.
 | Protected diagnostic fields are excluded from model inputs | Pass | Age, income, and employment status are removed before fitting |
 | Synthetic separability fields are excluded from model inputs | Pass | `x1` and `x2` are profiled but excluded from Variants III and V models |
 | Missing-value processing is fitted only on training rows | Pass | Imputers are inside the sklearn pipeline |
-| `-1` sentinel conversion is deterministic and documented | Pass | Only fields in `MISSING_SENTINEL_COLUMNS` are converted before splitting |
+| Missing-code conversion is deterministic and documented | Pass | All negative `intended_balcon_amount` values and exact `-1` codes in the other documented fields are converted before splitting |
 | Imbalance treatment is limited to model fitting | Pass | Class weights are estimator parameters; no pre-split resampling occurs |
 | Sampling is reproducible | Pass | Sampling is stratified by month/label with seed 42 |
 | Duplicate counts are recorded | Pass | Each generated dataset profile contains `duplicate_rows` |

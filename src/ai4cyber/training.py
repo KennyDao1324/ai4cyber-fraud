@@ -22,7 +22,11 @@ from sklearn.metrics import PrecisionRecallDisplay
 from sklearn.pipeline import Pipeline
 
 from .config import TrainingConfig
-from .constants import MISSING_SENTINEL_COLUMNS, SYNTHETIC_DATA_NOTICE
+from .constants import (
+    ALL_NEGATIVE_MISSING_COLUMNS,
+    MISSING_SENTINEL_COLUMNS,
+    SYNTHETIC_DATA_NOTICE,
+)
 from .data import (
     build_preprocessor,
     dataset_profile,
@@ -210,6 +214,10 @@ def train_dataset(
             "categorical_columns": temporal.categorical_columns,
             "protected_features_excluded": config.protected_features,
             "missing_sentinel_columns": sorted(MISSING_SENTINEL_COLUMNS),
+            "missing_value_policy": {
+                "all_negative_values": sorted(ALL_NEGATIVE_MISSING_COLUMNS),
+                "exact_minus_one": sorted(MISSING_SENTINEL_COLUMNS - ALL_NEGATIVE_MISSING_COLUMNS),
+            },
             "split_policy": {
                 "train_months": config.train_months,
                 "validation_months": config.validation_months,
@@ -286,6 +294,14 @@ def run_training(
         "target_excluded_from_features": True,
         "time_column_excluded_from_features": True,
         "protected_features_excluded_from_models": config.protected_features,
+        "missing_value_policy": {
+            "all_negative_values": sorted(ALL_NEGATIVE_MISSING_COLUMNS),
+            "exact_minus_one": sorted(MISSING_SENTINEL_COLUMNS - ALL_NEGATIVE_MISSING_COLUMNS),
+        },
+        "age_fairness_groups": {
+            "younger": "customer_age < 50",
+            "older": "customer_age >= 50",
+        },
         "test_data_used_for_selection": False,
         "fixed_random_seed": config.random_seed,
     }

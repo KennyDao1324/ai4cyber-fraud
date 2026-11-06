@@ -56,7 +56,11 @@ def fairness_by_age(frame: pd.DataFrame, y_true, scores: np.ndarray, threshold: 
     """Calculate metrics for the configured age groups."""
     if "customer_age" not in frame.columns:
         return {"available": False, "reason": "customer_age is absent"}
-    groups = np.where(frame["customer_age"].to_numpy() > 50, "age_over_50", "age_50_or_under")
+    groups = np.where(
+        frame["customer_age"].to_numpy() >= 50,
+        "age_50_or_over",
+        "age_under_50",
+    )
     results: dict[str, dict] = {}
     for group in sorted(set(groups)):
         mask = groups == group
@@ -65,7 +69,9 @@ def fairness_by_age(frame: pd.DataFrame, y_true, scores: np.ndarray, threshold: 
         results[group] = binary_metrics(np.asarray(y_true)[mask], scores[mask], threshold)
         results[group]["rows"] = int(mask.sum())
     if len(results) == 2:
-        younger = results["age_50_or_under"]["false_positive_rate"]
-        older = results["age_over_50"]["false_positive_rate"]
-        results["fpr_ratio_over50_to_under50"] = float(older / younger) if younger else None
+        younger = results["age_under_50"]["false_positive_rate"]
+        older = results["age_50_or_over"]["false_positive_rate"]
+        results["fpr_ratio_50_or_over_to_under_50"] = (
+            float(older / younger) if younger else None
+        )
     return {"available": bool(results), "groups": results}
