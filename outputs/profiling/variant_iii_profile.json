@@ -42,6 +42,14 @@
     "zip_count_4w": "int64"
   },
   "duplicate_rows": 0,
+  "effective_missing_sentinel_counts": {
+    "bank_months_count": 247242,
+    "current_address_months_count": 3473,
+    "device_distinct_emails_8w": 332,
+    "intended_balcon_amount": 751724,
+    "prev_address_months_count": 762005,
+    "session_length_in_minutes": 2256
+  },
   "file": "Variant III.csv",
   "file_bytes": 252204320,
   "fraud_count": 11030,
@@ -65,7 +73,7 @@
     "session_length_in_minutes": 2256
   },
   "missing_cells": 0,
-  "missing_cells_after_sentinel_conversion": 1015308,
+  "missing_cells_after_sentinel_conversion": 1767032,
   "missing_expected_columns": [],
   "missing_sentinel_columns": [
     "bank_months_count",
@@ -75,6 +83,10 @@
     "prev_address_months_count",
     "session_length_in_minutes"
   ],
+  "missing_value_policy": {
+    "intended_balcon_amount": "all negative values are converted to missing",
+    "other_documented_sentinel_columns": "exactly -1 is converted to missing"
+  },
   "month_counts": {
     "0": 80026,
     "1": 105278,
@@ -84,6 +96,9 @@
     "5": 147496,
     "6": 136092,
     "7": 105580
+  },
+  "negative_missing_counts": {
+    "intended_balcon_amount": 751724
   },
   "null_counts": {},
   "purpose": "Group-dependent class-separability stress test.",

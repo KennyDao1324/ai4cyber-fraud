@@ -36,6 +36,14 @@
     "zip_count_4w": "int64"
   },
   "duplicate_rows": 0,
+  "effective_missing_sentinel_counts": {
+    "bank_months_count": 253635,
+    "current_address_months_count": 4254,
+    "device_distinct_emails_8w": 359,
+    "intended_balcon_amount": 742523,
+    "prev_address_months_count": 712920,
+    "session_length_in_minutes": 2015
+  },
   "fraud_count": 11029,
   "fraud_rate": 0.011029,
   "fraud_rate_by_month": {
@@ -57,7 +65,7 @@
     "session_length_in_minutes": 2015
   },
   "missing_cells": 0,
-  "missing_cells_after_sentinel_conversion": 973183,
+  "missing_cells_after_sentinel_conversion": 1715706,
   "missing_expected_columns": [],
   "missing_sentinel_columns": [
     "bank_months_count",
@@ -67,6 +75,10 @@
     "prev_address_months_count",
     "session_length_in_minutes"
   ],
+  "missing_value_policy": {
+    "intended_balcon_amount": "all negative values are converted to missing",
+    "other_documented_sentinel_columns": "exactly -1 is converted to missing"
+  },
   "month_counts": {
     "0": 132440,
     "1": 127620,
@@ -76,6 +88,9 @@
     "5": 119323,
     "6": 108168,
     "7": 96843
+  },
+  "negative_missing_counts": {
+    "intended_balcon_amount": 742523
   },
   "null_counts": {},
   "rows": 1000000,

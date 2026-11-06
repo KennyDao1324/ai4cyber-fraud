@@ -93,6 +93,14 @@
           "zip_count_4w": "int64"
         },
         "duplicate_rows": 0,
+        "effective_missing_sentinel_counts": {
+          "bank_months_count": 253635,
+          "current_address_months_count": 4254,
+          "device_distinct_emails_8w": 359,
+          "intended_balcon_amount": 742523,
+          "prev_address_months_count": 712920,
+          "session_length_in_minutes": 2015
+        },
         "fraud_count": 11029,
         "fraud_rate": 0.011029,
         "fraud_rate_by_month": {
@@ -114,7 +122,7 @@
           "session_length_in_minutes": 2015
         },
         "missing_cells": 0,
-        "missing_cells_after_sentinel_conversion": 973183,
+        "missing_cells_after_sentinel_conversion": 1715706,
         "missing_expected_columns": [],
         "missing_sentinel_columns": [
           "bank_months_count",
@@ -124,6 +132,10 @@
           "prev_address_months_count",
           "session_length_in_minutes"
         ],
+        "missing_value_policy": {
+          "intended_balcon_amount": "all negative values are converted to missing",
+          "other_documented_sentinel_columns": "exactly -1 is converted to missing"
+        },
         "month_counts": {
           "0": 132440,
           "1": 127620,
@@ -133,6 +145,9 @@
           "5": 119323,
           "6": 108168,
           "7": 96843
+        },
+        "negative_missing_counts": {
+          "intended_balcon_amount": 742523
         },
         "null_counts": {},
         "rows": 1000000,
@@ -147,30 +162,30 @@
         "sentinel_minus_one_total": 973183
       },
       "test_metrics": {
-        "accuracy": 0.94784,
+        "accuracy": 0.94886,
         "confusion_matrix": [
           [
-            47031,
-            2267
+            47084,
+            2214
           ],
           [
-            341,
-            361
+            343,
+            359
           ]
         ],
-        "f1": 0.2168168168168168,
-        "false_negative": 341,
-        "false_positive": 2267,
-        "false_positive_rate": 0.04598563836261106,
-        "pr_auc": 0.1695067690893528,
-        "precision": 0.1373668188736682,
-        "recall": 0.5142450142450142,
-        "roc_auc": 0.8911958657384434,
-        "threshold": 0.7462441115071242,
-        "true_negative": 47031,
-        "true_positive": 361
+        "f1": 0.21923664122137404,
+        "false_negative": 343,
+        "false_positive": 2214,
+        "false_positive_rate": 0.0449105440382977,
+        "pr_auc": 0.171088524167159,
+        "precision": 0.13952584531675088,
+        "recall": 0.5113960113960114,
+        "roc_auc": 0.8915903790645158,
+        "threshold": 0.7493798419100224,
+        "true_negative": 47084,
+        "true_positive": 359
       },
-      "validation_pr_auc": 0.15668939468695933,
+      "validation_pr_auc": 0.15739594083860173,
       "winner": "logistic_regression"
     },
     {
@@ -214,6 +229,14 @@
           "zip_count_4w": "int64"
         },
         "duplicate_rows": 0,
+        "effective_missing_sentinel_counts": {
+          "bank_months_count": 254905,
+          "current_address_months_count": 4442,
+          "device_distinct_emails_8w": 318,
+          "intended_balcon_amount": 739988,
+          "prev_address_months_count": 704367,
+          "session_length_in_minutes": 1842
+        },
         "fraud_count": 11029,
         "fraud_rate": 0.011029,
         "fraud_rate_by_month": {
@@ -235,7 +258,7 @@
           "session_length_in_minutes": 1842
         },
         "missing_cells": 0,
-        "missing_cells_after_sentinel_conversion": 965874,
+        "missing_cells_after_sentinel_conversion": 1705862,
         "missing_expected_columns": [],
         "missing_sentinel_columns": [
           "bank_months_count",
@@ -245,6 +268,10 @@
           "prev_address_months_count",
           "session_length_in_minutes"
         ],
+        "missing_value_policy": {
+          "intended_balcon_amount": "all negative values are converted to missing",
+          "other_documented_sentinel_columns": "exactly -1 is converted to missing"
+        },
         "month_counts": {
           "0": 132440,
           "1": 127620,
@@ -254,6 +281,9 @@
           "5": 119322,
           "6": 108168,
           "7": 96842
+        },
+        "negative_missing_counts": {
+          "intended_balcon_amount": 739988
         },
         "null_counts": {},
         "rows": 1000000,
@@ -268,30 +298,30 @@
         "sentinel_minus_one_total": 965874
       },
       "test_metrics": {
-        "accuracy": 0.94948,
+        "accuracy": 0.95002,
         "confusion_matrix": [
           [
-            47183,
-            2115
+            47211,
+            2087
           ],
           [
-            411,
-            291
+            412,
+            290
           ]
         ],
-        "f1": 0.18725868725868725,
-        "false_negative": 411,
-        "false_positive": 2115,
-        "false_positive_rate": 0.04290234897967463,
-        "pr_auc": 0.1404102334750469,
-        "precision": 0.12094763092269327,
-        "recall": 0.41452991452991456,
-        "roc_auc": 0.8680231417766409,
-        "threshold": 0.7392193115893418,
-        "true_negative": 47183,
-        "true_positive": 291
+        "f1": 0.18837284832737902,
+        "false_negative": 412,
+        "false_positive": 2087,
+        "false_positive_rate": 0.042334374619660026,
+        "pr_auc": 0.13942281583991173,
+        "precision": 0.12200252419015566,
+        "recall": 0.4131054131054131,
+        "roc_auc": 0.867833788094245,
+        "threshold": 0.7404547700706213,
+        "true_negative": 47211,
+        "true_positive": 290
       },
-      "validation_pr_auc": 0.14541648149972558,
+      "validation_pr_auc": 0.14583935737370182,
       "winner": "logistic_regression"
     },
     {
@@ -335,6 +365,14 @@
           "zip_count_4w": "int64"
         },
         "duplicate_rows": 0,
+        "effective_missing_sentinel_counts": {
+          "bank_months_count": 241872,
+          "current_address_months_count": 3488,
+          "device_distinct_emails_8w": 336,
+          "intended_balcon_amount": 749184,
+          "prev_address_months_count": 759415,
+          "session_length_in_minutes": 2277
+        },
         "fraud_count": 11029,
         "fraud_rate": 0.011029,
         "fraud_rate_by_month": {
@@ -356,7 +394,7 @@
           "session_length_in_minutes": 2277
         },
         "missing_cells": 0,
-        "missing_cells_after_sentinel_conversion": 1007388,
+        "missing_cells_after_sentinel_conversion": 1756572,
         "missing_expected_columns": [],
         "missing_sentinel_columns": [
           "bank_months_count",
@@ -366,6 +404,10 @@
           "prev_address_months_count",
           "session_length_in_minutes"
         ],
+        "missing_value_policy": {
+          "intended_balcon_amount": "all negative values are converted to missing",
+          "other_documented_sentinel_columns": "exactly -1 is converted to missing"
+        },
         "month_counts": {
           "0": 132440,
           "1": 127620,
@@ -375,6 +417,9 @@
           "5": 119324,
           "6": 108168,
           "7": 96842
+        },
+        "negative_missing_counts": {
+          "intended_balcon_amount": 749184
         },
         "null_counts": {},
         "rows": 1000000,
@@ -389,30 +434,30 @@
         "sentinel_minus_one_total": 1007388
       },
       "test_metrics": {
-        "accuracy": 0.9458,
+        "accuracy": 0.94594,
         "confusion_matrix": [
           [
-            46961,
-            2337
+            46970,
+            2328
           ],
           [
-            373,
-            329
+            375,
+            327
           ]
         ],
-        "f1": 0.19536817102137768,
-        "false_negative": 373,
-        "false_positive": 2337,
-        "false_positive_rate": 0.04740557426264757,
-        "pr_auc": 0.15976748854703984,
-        "precision": 0.12340585146286571,
-        "recall": 0.4686609686609687,
-        "roc_auc": 0.8723722661610608,
-        "threshold": 0.7389996017060599,
-        "true_negative": 46961,
-        "true_positive": 329
+        "f1": 0.19481680071492405,
+        "false_negative": 375,
+        "false_positive": 2328,
+        "false_positive_rate": 0.04722301107550002,
+        "pr_auc": 0.16095206867935244,
+        "precision": 0.12316384180790961,
+        "recall": 0.4658119658119658,
+        "roc_auc": 0.8721711230230846,
+        "threshold": 0.7397147216182983,
+        "true_negative": 46970,
+        "true_positive": 327
       },
-      "validation_pr_auc": 0.12404585526599327,
+      "validation_pr_auc": 0.12395429502597358,
       "winner": "logistic_regression"
     },
     {
@@ -461,6 +506,14 @@
           "zip_count_4w": "int64"
         },
         "duplicate_rows": 0,
+        "effective_missing_sentinel_counts": {
+          "bank_months_count": 247242,
+          "current_address_months_count": 3473,
+          "device_distinct_emails_8w": 332,
+          "intended_balcon_amount": 751724,
+          "prev_address_months_count": 762005,
+          "session_length_in_minutes": 2256
+        },
         "fraud_count": 11030,
         "fraud_rate": 0.01103,
         "fraud_rate_by_month": {
@@ -482,7 +535,7 @@
           "session_length_in_minutes": 2256
         },
         "missing_cells": 0,
-        "missing_cells_after_sentinel_conversion": 1015308,
+        "missing_cells_after_sentinel_conversion": 1767032,
         "missing_expected_columns": [],
         "missing_sentinel_columns": [
           "bank_months_count",
@@ -492,6 +545,10 @@
           "prev_address_months_count",
           "session_length_in_minutes"
         ],
+        "missing_value_policy": {
+          "intended_balcon_amount": "all negative values are converted to missing",
+          "other_documented_sentinel_columns": "exactly -1 is converted to missing"
+        },
         "month_counts": {
           "0": 80026,
           "1": 105278,
@@ -501,6 +558,9 @@
           "5": 147496,
           "6": 136092,
           "7": 105580
+        },
+        "negative_missing_counts": {
+          "intended_balcon_amount": 751724
         },
         "null_counts": {},
         "rows": 1000000,
@@ -515,30 +575,30 @@
         "sentinel_minus_one_total": 1015308
       },
       "test_metrics": {
-        "accuracy": 0.94176,
+        "accuracy": 0.9418,
         "confusion_matrix": [
           [
-            46822,
-            2629
+            46820,
+            2631
           ],
           [
-            283,
-            266
+            279,
+            270
           ]
         ],
-        "f1": 0.15447154471544716,
-        "false_negative": 283,
-        "false_positive": 2629,
-        "false_positive_rate": 0.053163737841499664,
-        "pr_auc": 0.11316544554955299,
-        "precision": 0.0918825561312608,
-        "recall": 0.48451730418943534,
-        "roc_auc": 0.8609412957184274,
-        "threshold": 0.7755046408147935,
-        "true_negative": 46822,
-        "true_positive": 266
+        "f1": 0.1565217391304348,
+        "false_negative": 279,
+        "false_positive": 2631,
+        "false_positive_rate": 0.053204181917453644,
+        "pr_auc": 0.11303677034014477,
+        "precision": 0.09307135470527404,
+        "recall": 0.4918032786885246,
+        "roc_auc": 0.8606350184037121,
+        "threshold": 0.7754754870302925,
+        "true_negative": 46820,
+        "true_positive": 270
       },
-      "validation_pr_auc": 0.1122939162030467,
+      "validation_pr_auc": 0.11203127284574423,
       "winner": "logistic_regression"
     },
     {
@@ -582,6 +642,14 @@
           "zip_count_4w": "int64"
         },
         "duplicate_rows": 0,
+        "effective_missing_sentinel_counts": {
+          "bank_months_count": 247181,
+          "current_address_months_count": 3479,
+          "device_distinct_emails_8w": 334,
+          "intended_balcon_amount": 751743,
+          "prev_address_months_count": 761771,
+          "session_length_in_minutes": 2262
+        },
         "fraud_count": 11030,
         "fraud_rate": 0.01103,
         "fraud_rate_by_month": {
@@ -603,7 +671,7 @@
           "session_length_in_minutes": 2262
         },
         "missing_cells": 0,
-        "missing_cells_after_sentinel_conversion": 1015027,
+        "missing_cells_after_sentinel_conversion": 1766770,
         "missing_expected_columns": [],
         "missing_sentinel_columns": [
           "bank_months_count",
@@ -613,6 +681,10 @@
           "prev_address_months_count",
           "session_length_in_minutes"
         ],
+        "missing_value_policy": {
+          "intended_balcon_amount": "all negative values are converted to missing",
+          "other_documented_sentinel_columns": "exactly -1 is converted to missing"
+        },
         "month_counts": {
           "0": 80026,
           "1": 105277,
@@ -622,6 +694,9 @@
           "5": 147496,
           "6": 136092,
           "7": 105580
+        },
+        "negative_missing_counts": {
+          "intended_balcon_amount": 751743
         },
         "null_counts": {},
         "rows": 1000000,
@@ -636,30 +711,30 @@
         "sentinel_minus_one_total": 1015027
       },
       "test_metrics": {
-        "accuracy": 0.93972,
+        "accuracy": 0.94006,
         "confusion_matrix": [
           [
-            46755,
-            2696
+            46771,
+            2680
           ],
           [
-            318,
-            231
+            317,
+            232
           ]
         ],
-        "f1": 0.13291139240506328,
-        "false_negative": 318,
-        "false_positive": 2696,
-        "false_positive_rate": 0.054518614385957814,
-        "pr_auc": 0.10868998419883164,
-        "precision": 0.07892039631021523,
-        "recall": 0.4207650273224044,
-        "roc_auc": 0.842050854999921,
-        "threshold": 0.7641327431637311,
-        "true_negative": 46755,
-        "true_positive": 231
+        "f1": 0.13406529904651834,
+        "false_negative": 317,
+        "false_positive": 2680,
+        "false_positive_rate": 0.05419506177832602,
+        "pr_auc": 0.10875558062057787,
+        "precision": 0.07967032967032966,
+        "recall": 0.4225865209471767,
+        "roc_auc": 0.8421208770294187,
+        "threshold": 0.7645341255890231,
+        "true_negative": 46771,
+        "true_positive": 232
       },
-      "validation_pr_auc": 0.11488434105488135,
+      "validation_pr_auc": 0.11493714235788283,
       "winner": "logistic_regression"
     },
     {
@@ -708,6 +783,14 @@
           "zip_count_4w": "int64"
         },
         "duplicate_rows": 0,
+        "effective_missing_sentinel_counts": {
+          "bank_months_count": 246922,
+          "current_address_months_count": 3381,
+          "device_distinct_emails_8w": 342,
+          "intended_balcon_amount": 751071,
+          "prev_address_months_count": 761730,
+          "session_length_in_minutes": 2165
+        },
         "fraud_count": 11030,
         "fraud_rate": 0.01103,
         "fraud_rate_by_month": {
@@ -729,7 +812,7 @@
           "session_length_in_minutes": 2165
         },
         "missing_cells": 0,
-        "missing_cells_after_sentinel_conversion": 1014540,
+        "missing_cells_after_sentinel_conversion": 1765611,
         "missing_expected_columns": [],
         "missing_sentinel_columns": [
           "bank_months_count",
@@ -739,6 +822,10 @@
           "prev_address_months_count",
           "session_length_in_minutes"
         ],
+        "missing_value_policy": {
+          "intended_balcon_amount": "all negative values are converted to missing",
+          "other_documented_sentinel_columns": "exactly -1 is converted to missing"
+        },
         "month_counts": {
           "0": 80026,
           "1": 105278,
@@ -748,6 +835,9 @@
           "5": 147496,
           "6": 136092,
           "7": 105580
+        },
+        "negative_missing_counts": {
+          "intended_balcon_amount": 751071
         },
         "null_counts": {},
         "rows": 1000000,
@@ -762,34 +852,38 @@
         "sentinel_minus_one_total": 1014540
       },
       "test_metrics": {
-        "accuracy": 0.9434,
+        "accuracy": 0.9443,
         "confusion_matrix": [
           [
-            46923,
-            2528
+            46971,
+            2480
           ],
           [
-            302,
-            247
+            305,
+            244
           ]
         ],
-        "f1": 0.1486161251504212,
-        "false_negative": 302,
-        "false_positive": 2528,
-        "false_positive_rate": 0.05112131200582395,
-        "pr_auc": 0.09795790430709603,
-        "precision": 0.08900900900900902,
-        "recall": 0.44990892531876137,
-        "roc_auc": 0.8599932541638704,
-        "threshold": 0.7609441731006081,
-        "true_negative": 46923,
-        "true_positive": 247
+        "f1": 0.14909868622059272,
+        "false_negative": 305,
+        "false_positive": 2480,
+        "false_positive_rate": 0.05015065418292856,
+        "pr_auc": 0.09817002843667799,
+        "precision": 0.08957415565345081,
+        "recall": 0.4444444444444444,
+        "roc_auc": 0.8599760525395804,
+        "threshold": 0.7639500050250096,
+        "true_negative": 46971,
+        "true_positive": 244
       },
-      "validation_pr_auc": 0.10578029118683402,
+      "validation_pr_auc": 0.10651814804917445,
       "winner": "logistic_regression"
     }
   ],
   "leakage_controls": {
+    "age_fairness_groups": {
+      "older": "customer_age >= 50",
+      "younger": "customer_age < 50"
+    },
     "development_months": [
       0,
       1,
@@ -800,6 +894,18 @@
     ],
     "fixed_random_seed": 42,
     "imbalance_control": "class_weight applied by estimators during training only",
+    "missing_value_policy": {
+      "all_negative_values": [
+        "intended_balcon_amount"
+      ],
+      "exact_minus_one": [
+        "bank_months_count",
+        "current_address_months_count",
+        "device_distinct_emails_8w",
+        "prev_address_months_count",
+        "session_length_in_minutes"
+      ]
+    },
     "preprocessing_fit_scope": "sklearn Pipeline fitted on training rows only",
     "protected_features_excluded_from_models": [
       "customer_age",

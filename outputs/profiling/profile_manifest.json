@@ -39,6 +39,14 @@
         "zip_count_4w": "int64"
       },
       "duplicate_rows": 0,
+      "effective_missing_sentinel_counts": {
+        "bank_months_count": 253635,
+        "current_address_months_count": 4254,
+        "device_distinct_emails_8w": 359,
+        "intended_balcon_amount": 742523,
+        "prev_address_months_count": 712920,
+        "session_length_in_minutes": 2015
+      },
       "file": "Base.csv",
       "file_bytes": 213427735,
       "fraud_count": 11029,
@@ -62,7 +70,7 @@
         "session_length_in_minutes": 2015
       },
       "missing_cells": 0,
-      "missing_cells_after_sentinel_conversion": 973183,
+      "missing_cells_after_sentinel_conversion": 1715706,
       "missing_expected_columns": [],
       "missing_sentinel_columns": [
         "bank_months_count",
@@ -72,6 +80,10 @@
         "prev_address_months_count",
         "session_length_in_minutes"
       ],
+      "missing_value_policy": {
+        "intended_balcon_amount": "all negative values are converted to missing",
+        "other_documented_sentinel_columns": "exactly -1 is converted to missing"
+      },
       "month_counts": {
         "0": 132440,
         "1": 127620,
@@ -81,6 +93,9 @@
         "5": 119323,
         "6": 108168,
         "7": 96843
+      },
+      "negative_missing_counts": {
+        "intended_balcon_amount": 742523
       },
       "null_counts": {},
       "purpose": "Reference dataset with no sampling bias intentionally introduced.",
@@ -135,6 +150,14 @@
         "zip_count_4w": "int64"
       },
       "duplicate_rows": 0,
+      "effective_missing_sentinel_counts": {
+        "bank_months_count": 254905,
+        "current_address_months_count": 4442,
+        "device_distinct_emails_8w": 318,
+        "intended_balcon_amount": 739988,
+        "prev_address_months_count": 704367,
+        "session_length_in_minutes": 1842
+      },
       "file": "Variant I.csv",
       "file_bytes": 213400445,
       "fraud_count": 11029,
@@ -158,7 +181,7 @@
         "session_length_in_minutes": 1842
       },
       "missing_cells": 0,
-      "missing_cells_after_sentinel_conversion": 965874,
+      "missing_cells_after_sentinel_conversion": 1705862,
       "missing_expected_columns": [],
       "missing_sentinel_columns": [
         "bank_months_count",
@@ -168,6 +191,10 @@
         "prev_address_months_count",
         "session_length_in_minutes"
       ],
+      "missing_value_policy": {
+        "intended_balcon_amount": "all negative values are converted to missing",
+        "other_documented_sentinel_columns": "exactly -1 is converted to missing"
+      },
       "month_counts": {
         "0": 132440,
         "1": 127620,
@@ -177,6 +204,9 @@
         "5": 119322,
         "6": 108168,
         "7": 96842
+      },
+      "negative_missing_counts": {
+        "intended_balcon_amount": 739988
       },
       "null_counts": {},
       "purpose": "Group-size disparity stress test.",
@@ -231,6 +261,14 @@
         "zip_count_4w": "int64"
       },
       "duplicate_rows": 0,
+      "effective_missing_sentinel_counts": {
+        "bank_months_count": 241872,
+        "current_address_months_count": 3488,
+        "device_distinct_emails_8w": 336,
+        "intended_balcon_amount": 749184,
+        "prev_address_months_count": 759415,
+        "session_length_in_minutes": 2277
+      },
       "file": "Variant II.csv",
       "file_bytes": 213537521,
       "fraud_count": 11029,
@@ -254,7 +292,7 @@
         "session_length_in_minutes": 2277
       },
       "missing_cells": 0,
-      "missing_cells_after_sentinel_conversion": 1007388,
+      "missing_cells_after_sentinel_conversion": 1756572,
       "missing_expected_columns": [],
       "missing_sentinel_columns": [
         "bank_months_count",
@@ -264,6 +302,10 @@
         "prev_address_months_count",
         "session_length_in_minutes"
       ],
+      "missing_value_policy": {
+        "intended_balcon_amount": "all negative values are converted to missing",
+        "other_documented_sentinel_columns": "exactly -1 is converted to missing"
+      },
       "month_counts": {
         "0": 132440,
         "1": 127620,
@@ -273,6 +315,9 @@
         "5": 119324,
         "6": 108168,
         "7": 96842
+      },
+      "negative_missing_counts": {
+        "intended_balcon_amount": 749184
       },
       "null_counts": {},
       "purpose": "Fraud-prevalence disparity stress test.",
@@ -332,6 +377,14 @@
         "zip_count_4w": "int64"
       },
       "duplicate_rows": 0,
+      "effective_missing_sentinel_counts": {
+        "bank_months_count": 247242,
+        "current_address_months_count": 3473,
+        "device_distinct_emails_8w": 332,
+        "intended_balcon_amount": 751724,
+        "prev_address_months_count": 762005,
+        "session_length_in_minutes": 2256
+      },
       "file": "Variant III.csv",
       "file_bytes": 252204320,
       "fraud_count": 11030,
@@ -355,7 +408,7 @@
         "session_length_in_minutes": 2256
       },
       "missing_cells": 0,
-      "missing_cells_after_sentinel_conversion": 1015308,
+      "missing_cells_after_sentinel_conversion": 1767032,
       "missing_expected_columns": [],
       "missing_sentinel_columns": [
         "bank_months_count",
@@ -365,6 +418,10 @@
         "prev_address_months_count",
         "session_length_in_minutes"
       ],
+      "missing_value_policy": {
+        "intended_balcon_amount": "all negative values are converted to missing",
+        "other_documented_sentinel_columns": "exactly -1 is converted to missing"
+      },
       "month_counts": {
         "0": 80026,
         "1": 105278,
@@ -374,6 +431,9 @@
         "5": 147496,
         "6": 136092,
         "7": 105580
+      },
+      "negative_missing_counts": {
+        "intended_balcon_amount": 751724
       },
       "null_counts": {},
       "purpose": "Group-dependent class-separability stress test.",
@@ -428,6 +488,14 @@
         "zip_count_4w": "int64"
       },
       "duplicate_rows": 0,
+      "effective_missing_sentinel_counts": {
+        "bank_months_count": 247181,
+        "current_address_months_count": 3479,
+        "device_distinct_emails_8w": 334,
+        "intended_balcon_amount": 751743,
+        "prev_address_months_count": 761771,
+        "session_length_in_minutes": 2262
+      },
       "file": "Variant IV.csv",
       "file_bytes": 213538370,
       "fraud_count": 11030,
@@ -451,7 +519,7 @@
         "session_length_in_minutes": 2262
       },
       "missing_cells": 0,
-      "missing_cells_after_sentinel_conversion": 1015027,
+      "missing_cells_after_sentinel_conversion": 1766770,
       "missing_expected_columns": [],
       "missing_sentinel_columns": [
         "bank_months_count",
@@ -461,6 +529,10 @@
         "prev_address_months_count",
         "session_length_in_minutes"
       ],
+      "missing_value_policy": {
+        "intended_balcon_amount": "all negative values are converted to missing",
+        "other_documented_sentinel_columns": "exactly -1 is converted to missing"
+      },
       "month_counts": {
         "0": 80026,
         "1": 105277,
@@ -470,6 +542,9 @@
         "5": 147496,
         "6": 136092,
         "7": 105580
+      },
+      "negative_missing_counts": {
+        "intended_balcon_amount": 751743
       },
       "null_counts": {},
       "purpose": "Temporal prevalence-disparity stress test.",
@@ -529,6 +604,14 @@
         "zip_count_4w": "int64"
       },
       "duplicate_rows": 0,
+      "effective_missing_sentinel_counts": {
+        "bank_months_count": 246922,
+        "current_address_months_count": 3381,
+        "device_distinct_emails_8w": 342,
+        "intended_balcon_amount": 751071,
+        "prev_address_months_count": 761730,
+        "session_length_in_minutes": 2165
+      },
       "file": "Variant V.csv",
       "file_bytes": 252214315,
       "fraud_count": 11030,
@@ -552,7 +635,7 @@
         "session_length_in_minutes": 2165
       },
       "missing_cells": 0,
-      "missing_cells_after_sentinel_conversion": 1014540,
+      "missing_cells_after_sentinel_conversion": 1765611,
       "missing_expected_columns": [],
       "missing_sentinel_columns": [
         "bank_months_count",
@@ -562,6 +645,10 @@
         "prev_address_months_count",
         "session_length_in_minutes"
       ],
+      "missing_value_policy": {
+        "intended_balcon_amount": "all negative values are converted to missing",
+        "other_documented_sentinel_columns": "exactly -1 is converted to missing"
+      },
       "month_counts": {
         "0": 80026,
         "1": 105278,
@@ -571,6 +658,9 @@
         "5": 147496,
         "6": 136092,
         "7": 105580
+      },
+      "negative_missing_counts": {
+        "intended_balcon_amount": 751071
       },
       "null_counts": {},
       "purpose": "Temporal class-separability stress test.",

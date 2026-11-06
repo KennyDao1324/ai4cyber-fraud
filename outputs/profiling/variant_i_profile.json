@@ -37,6 +37,14 @@
     "zip_count_4w": "int64"
   },
   "duplicate_rows": 0,
+  "effective_missing_sentinel_counts": {
+    "bank_months_count": 254905,
+    "current_address_months_count": 4442,
+    "device_distinct_emails_8w": 318,
+    "intended_balcon_amount": 739988,
+    "prev_address_months_count": 704367,
+    "session_length_in_minutes": 1842
+  },
   "file": "Variant I.csv",
   "file_bytes": 213400445,
   "fraud_count": 11029,
@@ -60,7 +68,7 @@
     "session_length_in_minutes": 1842
   },
   "missing_cells": 0,
-  "missing_cells_after_sentinel_conversion": 965874,
+  "missing_cells_after_sentinel_conversion": 1705862,
   "missing_expected_columns": [],
   "missing_sentinel_columns": [
     "bank_months_count",
@@ -70,6 +78,10 @@
     "prev_address_months_count",
     "session_length_in_minutes"
   ],
+  "missing_value_policy": {
+    "intended_balcon_amount": "all negative values are converted to missing",
+    "other_documented_sentinel_columns": "exactly -1 is converted to missing"
+  },
   "month_counts": {
     "0": 132440,
     "1": 127620,
@@ -79,6 +91,9 @@
     "5": 119322,
     "6": 108168,
     "7": 96842
+  },
+  "negative_missing_counts": {
+    "intended_balcon_amount": 739988
   },
   "null_counts": {},
   "purpose": "Group-size disparity stress test.",
