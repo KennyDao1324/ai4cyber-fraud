@@ -1,7 +1,7 @@
 # AI4Cyber: Bank Account Opening Fraud Screening
 
 This repository contains the machine-learning implementation for detecting potentially fraudulent bank
-account applications. It trains and compares four classifiers on all six datasets in the Bank Account
+account applications. It trains and compares five classifiers on all six datasets in the Bank Account
 Fraud (BAF) dataset, evaluates the models using a time-based split, performs exploratory clustering, and
 serves the selected model through a FastAPI application.
 
@@ -109,19 +109,22 @@ The project keeps Base and Variants I-V separate and trains these classifiers on
 2. SGD logistic classification
 3. Random forest
 4. Extra trees
+5. CatBoost
 
 MiniBatch K-Means is used as a second, unsupervised method. The number of clusters is selected using the
 silhouette score.
 
 The two logistic models provide interpretable and scalable linear baselines for sparse one-hot features,
 while random forest and extra trees test nonlinear interactions with two different kinds of tree
-randomization. The tree settings (160 estimators and maximum depth 16) are a fixed laptop-safe compromise
+randomization. CatBoost adds gradient boosting with native categorical-feature handling, which is a good
+fit for BAF's mixed tabular schema and avoids a large one-hot matrix. The bagged-tree settings (160
+estimators and maximum depth 16) are a fixed laptop-safe compromise
 for stable ensemble estimates, runtime, memory, and artifact size; they are not claimed to be the result of
 an exhaustive hyperparameter search.
 
-LightGBM and XGBoost were not run in this BAF repository. The experiment stays within scikit-learn to keep
-the setup reproducible and CPU-friendly without optional compiled dependencies. The separate IEEE project
-uses scikit-learn's `HistGradientBoostingClassifier` as the boosted-tree experiment.
+LightGBM and XGBoost were not added to this BAF comparison because CatBoost directly supports the native
+categorical columns and performed best on validation data. The separate IEEE project compares XGBoost and
+scikit-learn's `HistGradientBoostingClassifier` on its encoded feature matrix.
 
 The temporal evaluation uses:
 
@@ -146,16 +149,16 @@ and categorical imputers remain inside each sklearn pipeline and are fitted on t
 
 ## Current real-data results
 
-Logistic regression was selected for all six datasets using validation PR-AUC.
+CatBoost was selected for all six datasets using validation PR-AUC.
 
 | Dataset | Test PR-AUC | Recall | FPR | Threshold |
 | --- | ---: | ---: | ---: | ---: |
-| Base | 0.1711 | 0.5114 | 0.0449 | 0.7494 |
-| Variant I | 0.1394 | 0.4131 | 0.0423 | 0.7405 |
-| Variant II | 0.1610 | 0.4658 | 0.0472 | 0.7397 |
-| Variant III | 0.1130 | 0.4918 | 0.0532 | 0.7755 |
-| Variant IV | 0.1088 | 0.4226 | 0.0542 | 0.7645 |
-| Variant V | 0.0982 | 0.4444 | 0.0502 | 0.7640 |
+| Base | 0.1832 | 0.4915 | 0.0439 | 0.6074 |
+| Variant I | 0.1530 | 0.4017 | 0.0402 | 0.6322 |
+| Variant II | 0.1458 | 0.4573 | 0.0512 | 0.6132 |
+| Variant III | 0.1314 | 0.4353 | 0.0421 | 0.6897 |
+| Variant IV | 0.1127 | 0.3843 | 0.0482 | 0.6662 |
+| Variant V | 0.1165 | 0.4536 | 0.0510 | 0.6675 |
 
 ### Evaluation files and chart previews
 

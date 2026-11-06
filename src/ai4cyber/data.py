@@ -30,6 +30,18 @@ class TemporalData:
     categorical_columns: list[str]
 
 
+def prepare_catboost_frame(
+    frame: pd.DataFrame,
+    feature_columns: list[str],
+    categorical_columns: list[str],
+) -> pd.DataFrame:
+    """Keep native columns and give missing categorical values a stable label."""
+    prepared = frame[feature_columns].copy()
+    for column in categorical_columns:
+        prepared[column] = prepared[column].astype("string").fillna("__MISSING__").astype(str)
+    return prepared
+
+
 def load_baf_csv(path: str | Path, config: TrainingConfig) -> pd.DataFrame:
     """Load and validate a BAF CSV file."""
     path = Path(path)

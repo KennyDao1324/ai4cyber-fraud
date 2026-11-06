@@ -694,5 +694,179 @@
       "true_positive": 233
     },
     "validation_rows": 50000
+  },
+  {
+    "artifact": "artifacts/variant_ii/catboost.joblib",
+    "dataset": "Variant II",
+    "fairness": {
+      "available": true,
+      "groups": {
+        "age_50_or_over": {
+          "accuracy": 0.9147021845041647,
+          "confusion_matrix": [
+            [
+              22992,
+              1877
+            ],
+            [
+              294,
+              289
+            ]
+          ],
+          "f1": 0.2102582757366315,
+          "false_negative": 294,
+          "false_positive": 1877,
+          "false_positive_rate": 0.07547549157585749,
+          "pr_auc": 0.1784323153451318,
+          "precision": 0.13342566943674977,
+          "recall": 0.4957118353344768,
+          "roc_auc": 0.8373703937621129,
+          "rows": 25452,
+          "threshold": 0.613159866694673,
+          "true_negative": 22992,
+          "true_positive": 289
+        },
+        "age_under_50": {
+          "accuracy": 0.9700586605833469,
+          "confusion_matrix": [
+            [
+              23781,
+              648
+            ],
+            [
+              87,
+              32
+            ]
+          ],
+          "f1": 0.08010012515644556,
+          "false_negative": 87,
+          "false_positive": 648,
+          "false_positive_rate": 0.026525850423676778,
+          "pr_auc": 0.0430743479262302,
+          "precision": 0.047058823529411764,
+          "recall": 0.2689075630252101,
+          "roc_auc": 0.8242786246268125,
+          "rows": 24548,
+          "threshold": 0.613159866694673,
+          "true_negative": 23781,
+          "true_positive": 32
+        },
+        "fpr_ratio_50_or_over_to_under_50": 2.8453561476954055
+      }
+    },
+    "model": "catboost",
+    "test": {
+      "accuracy": 0.94188,
+      "confusion_matrix": [
+        [
+          46773,
+          2525
+        ],
+        [
+          381,
+          321
+        ]
+      ],
+      "f1": 0.18094701240135289,
+      "false_negative": 381,
+      "false_positive": 2525,
+      "false_positive_rate": 0.05121911639417421,
+      "pr_auc": 0.14580124907679404,
+      "precision": 0.11278988053408293,
+      "recall": 0.45726495726495725,
+      "roc_auc": 0.8531395898124772,
+      "threshold": 0.613159866694673,
+      "true_negative": 46773,
+      "true_positive": 321
+    },
+    "test_rows": 50000,
+    "top_features": [
+      {
+        "feature": "current_address_months_count",
+        "importance": 0.07372355772953847
+      },
+      {
+        "feature": "housing_status",
+        "importance": 0.06444549057724458
+      },
+      {
+        "feature": "credit_risk_score",
+        "importance": 0.06184645318676984
+      },
+      {
+        "feature": "device_os",
+        "importance": 0.05961934215793584
+      },
+      {
+        "feature": "days_since_request",
+        "importance": 0.05664803396907034
+      },
+      {
+        "feature": "name_email_similarity",
+        "importance": 0.05495817133339582
+      },
+      {
+        "feature": "velocity_4w",
+        "importance": 0.0546814990078536
+      },
+      {
+        "feature": "date_of_birth_distinct_emails_4w",
+        "importance": 0.05452453140466488
+      },
+      {
+        "feature": "session_length_in_minutes",
+        "importance": 0.05363307820040501
+      },
+      {
+        "feature": "zip_count_4w",
+        "importance": 0.0516902861273224
+      },
+      {
+        "feature": "velocity_6h",
+        "importance": 0.05157631745570892
+      },
+      {
+        "feature": "bank_branch_count_8w",
+        "importance": 0.04735034162470003
+      },
+      {
+        "feature": "velocity_24h",
+        "importance": 0.046749815843865956
+      },
+      {
+        "feature": "bank_months_count",
+        "importance": 0.04219425558347769
+      },
+      {
+        "feature": "intended_balcon_amount",
+        "importance": 0.03468378627749625
+      }
+    ],
+    "train_rows": 250000,
+    "validation": {
+      "accuracy": 0.94448,
+      "confusion_matrix": [
+        [
+          46967,
+          2442
+        ],
+        [
+          334,
+          257
+        ]
+      ],
+      "f1": 0.15623100303951368,
+      "false_negative": 334,
+      "false_positive": 2442,
+      "false_positive_rate": 0.049424193972758,
+      "pr_auc": 0.13110374622387608,
+      "precision": 0.09522045201926639,
+      "recall": 0.43485617597292725,
+      "roc_auc": 0.8571330726479713,
+      "threshold": 0.613159866694673,
+      "true_negative": 46967,
+      "true_positive": 257
+    },
+    "validation_rows": 50000
   }
 ]

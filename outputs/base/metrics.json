@@ -548,7 +548,7 @@
           "recall": 0.4608695652173913,
           "roc_auc": 0.8420955504324015,
           "rows": 8264,
-          "threshold": 0.5894348796865888,
+          "threshold": 0.5894348796865889,
           "true_negative": 7410,
           "true_positive": 106
         },
@@ -573,7 +573,7 @@
           "recall": 0.4258474576271186,
           "roc_auc": 0.8681507067349715,
           "rows": 41736,
-          "threshold": 0.5894348796865888,
+          "threshold": 0.5894348796865889,
           "true_negative": 39685,
           "true_positive": 201
         },
@@ -601,7 +601,7 @@
       "precision": 0.12231075697211155,
       "recall": 0.4373219373219373,
       "roc_auc": 0.8670728480862766,
-      "threshold": 0.5894348796865888,
+      "threshold": 0.5894348796865889,
       "true_negative": 47095,
       "true_positive": 307
     },
@@ -689,9 +689,183 @@
       "precision": 0.09449981543004798,
       "recall": 0.43316412859560066,
       "roc_auc": 0.8607993864808603,
-      "threshold": 0.5894348796865888,
+      "threshold": 0.5894348796865889,
       "true_negative": 46956,
       "true_positive": 256
+    },
+    "validation_rows": 50000
+  },
+  {
+    "artifact": "artifacts/base/catboost.joblib",
+    "dataset": "Base",
+    "fairness": {
+      "available": true,
+      "groups": {
+        "age_50_or_over": {
+          "accuracy": 0.9058567279767668,
+          "confusion_matrix": [
+            [
+              7358,
+              676
+            ],
+            [
+              102,
+              128
+            ]
+          ],
+          "f1": 0.24758220502901354,
+          "false_negative": 102,
+          "false_positive": 676,
+          "false_positive_rate": 0.08414239482200647,
+          "pr_auc": 0.21901346969797217,
+          "precision": 0.15920398009950248,
+          "recall": 0.5565217391304348,
+          "roc_auc": 0.8683562251734477,
+          "rows": 8264,
+          "threshold": 0.6074449469461461,
+          "true_negative": 7358,
+          "true_positive": 128
+        },
+        "age_under_50": {
+          "accuracy": 0.9581895725512747,
+          "confusion_matrix": [
+            [
+              39774,
+              1490
+            ],
+            [
+              255,
+              217
+            ]
+          ],
+          "f1": 0.1991739329967875,
+          "false_negative": 255,
+          "false_positive": 1490,
+          "false_positive_rate": 0.03610895696006204,
+          "pr_auc": 0.16977802396256636,
+          "precision": 0.1271236086701816,
+          "recall": 0.4597457627118644,
+          "roc_auc": 0.8784201027201453,
+          "rows": 41736,
+          "threshold": 0.6074449469461461,
+          "true_negative": 39774,
+          "true_positive": 217
+        },
+        "fpr_ratio_50_or_over_to_under_50": 2.330236093916292
+      }
+    },
+    "model": "catboost",
+    "test": {
+      "accuracy": 0.94954,
+      "confusion_matrix": [
+        [
+          47132,
+          2166
+        ],
+        [
+          357,
+          345
+        ]
+      ],
+      "f1": 0.21475256769374415,
+      "false_negative": 357,
+      "false_positive": 2166,
+      "false_positive_rate": 0.04393687370684409,
+      "pr_auc": 0.18318943049323214,
+      "precision": 0.13739545997610514,
+      "recall": 0.49145299145299143,
+      "roc_auc": 0.8822994500912469,
+      "threshold": 0.6074449469461461,
+      "true_negative": 47132,
+      "true_positive": 345
+    },
+    "test_rows": 50000,
+    "top_features": [
+      {
+        "feature": "current_address_months_count",
+        "importance": 0.0823131193631344
+      },
+      {
+        "feature": "credit_risk_score",
+        "importance": 0.06984872844241645
+      },
+      {
+        "feature": "name_email_similarity",
+        "importance": 0.06533363639919673
+      },
+      {
+        "feature": "velocity_4w",
+        "importance": 0.060544901244404634
+      },
+      {
+        "feature": "velocity_6h",
+        "importance": 0.05552489141870643
+      },
+      {
+        "feature": "bank_branch_count_8w",
+        "importance": 0.05379180307455643
+      },
+      {
+        "feature": "zip_count_4w",
+        "importance": 0.05281966246556846
+      },
+      {
+        "feature": "velocity_24h",
+        "importance": 0.05129148490972993
+      },
+      {
+        "feature": "session_length_in_minutes",
+        "importance": 0.04999976255787446
+      },
+      {
+        "feature": "days_since_request",
+        "importance": 0.04766344573722874
+      },
+      {
+        "feature": "has_other_cards",
+        "importance": 0.04473940706318125
+      },
+      {
+        "feature": "date_of_birth_distinct_emails_4w",
+        "importance": 0.04443007997903514
+      },
+      {
+        "feature": "prev_address_months_count",
+        "importance": 0.042142516596270184
+      },
+      {
+        "feature": "intended_balcon_amount",
+        "importance": 0.040323119390895515
+      },
+      {
+        "feature": "device_os",
+        "importance": 0.03730336896541438
+      }
+    ],
+    "train_rows": 250000,
+    "validation": {
+      "accuracy": 0.9448,
+      "confusion_matrix": [
+        [
+          46950,
+          2459
+        ],
+        [
+          301,
+          290
+        ]
+      ],
+      "f1": 0.17365269461077845,
+      "false_negative": 301,
+      "false_positive": 2459,
+      "false_positive_rate": 0.049768260843166226,
+      "pr_auc": 0.1821167536457319,
+      "precision": 0.1054929065114587,
+      "recall": 0.4906937394247039,
+      "roc_auc": 0.8661038791544825,
+      "threshold": 0.6074449469461461,
+      "true_negative": 46950,
+      "true_positive": 290
     },
     "validation_rows": 50000
   }

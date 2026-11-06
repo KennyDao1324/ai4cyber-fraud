@@ -16,10 +16,12 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import seaborn as sns
+from catboost import CatBoostClassifier
 from sklearn.ensemble import ExtraTreesClassifier, RandomForestClassifier
 from sklearn.linear_model import LogisticRegression, SGDClassifier
 from sklearn.metrics import PrecisionRecallDisplay
 from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import FunctionTransformer
 
 from .config import TrainingConfig
 from .constants import (
@@ -32,6 +34,7 @@ from .data import (
     dataset_profile,
     load_baf_csv,
     make_temporal_data,
+    prepare_catboost_frame,
     replace_missing_sentinels,
 )
 from .metrics import binary_metrics, fairness_by_age, threshold_at_fpr
@@ -77,13 +80,38 @@ def build_models(config: TrainingConfig) -> dict[str, object]:
     }
 
 
+def build_catboost_pipeline(config: TrainingConfig, temporal) -> Pipeline:
+    """Build the native-categorical boosted-tree candidate."""
+    prepare = FunctionTransformer(
+        prepare_catboost_frame,
+        validate=False,
+        kw_args={
+            "feature_columns": temporal.feature_columns,
+            "categorical_columns": temporal.categorical_columns,
+        },
+        feature_names_out="one-to-one",
+    )
+    model = CatBoostClassifier(
+        iterations=config.catboost_iterations,
+        depth=config.catboost_depth,
+        learning_rate=config.catboost_learning_rate,
+        loss_function="Logloss",
+        eval_metric="PRAUC",
+        auto_class_weights="Balanced",
+        random_seed=config.random_seed,
+        thread_count=config.n_jobs,
+        allow_writing_files=False,
+        verbose=False,
+    )
+    return Pipeline([("prepare", prepare), ("model", model)])
+
+
 def _json_dump(payload: object, path: Path) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(payload, indent=2, sort_keys=True), encoding="utf-8")
 
 
 def _feature_importance(pipeline: Pipeline, raw_features: list[str]) -> list[dict]:
-    transformed = pipeline.named_steps["preprocessor"].get_feature_names_out()
     model = pipeline.named_steps["model"]
     if hasattr(model, "feature_importances_"):
         values = np.asarray(model.feature_importances_)
@@ -91,6 +119,18 @@ def _feature_importance(pipeline: Pipeline, raw_features: list[str]) -> list[dic
         values = np.abs(np.asarray(model.coef_)).reshape(-1)
     else:
         return []
+    if "preprocessor" not in pipeline.named_steps:
+        total = float(np.abs(values).sum()) or 1.0
+        return [
+            {"feature": feature, "importance": float(abs(value) / total)}
+            for feature, value in sorted(
+                zip(raw_features, values, strict=False),
+                key=lambda item: abs(item[1]),
+                reverse=True,
+            )
+            if value != 0
+        ]
+    transformed = pipeline.named_steps["preprocessor"].get_feature_names_out()
     aggregated = {feature: 0.0 for feature in raw_features}
     for name, value in zip(transformed, values, strict=False):
         token = name.split("__", 1)[-1]
@@ -192,12 +232,22 @@ def train_dataset(
         processed_root / f"{safe_name}_model_data.csv.gz", index=False, compression="gzip"
     )
 
-    results: list[dict] = []
-    for model_name, estimator in build_models(config).items():
-        pipeline = Pipeline(
+    candidates = {
+        model_name: Pipeline(
             [("preprocessor", copy.deepcopy(build_preprocessor(temporal))), ("model", estimator)]
         )
-        pipeline.fit(X_train, y_train)
+        for model_name, estimator in build_models(config).items()
+    }
+    candidates["catboost"] = build_catboost_pipeline(config, temporal)
+
+    results: list[dict] = []
+    for model_name, pipeline in candidates.items():
+        fit_params = (
+            {"model__cat_features": temporal.categorical_columns}
+            if model_name == "catboost"
+            else {}
+        )
+        pipeline.fit(X_train, y_train, **fit_params)
         validation_scores = pipeline.predict_proba(X_validation)[:, 1]
         threshold = threshold_at_fpr(
             y_validation, validation_scores, config.target_false_positive_rate

@@ -6,7 +6,7 @@ This log is generated from the model card and dataset profile manifest.
 
 | Item | Value |
 | --- | --- |
-| Log generated | 2026-11-07T00:09:11+07:00 |
+| Log generated | 2026-11-07T06:01:16+07:00 |
 | Architecture | ML-only |
 | Selection rule | Highest validation PR-AUC; test data not used for selection |
 | Random seed | 42 |
@@ -59,12 +59,12 @@ Per-column dtypes, raw null counts, sentinel counts, monthly counts, and differe
 
 | Dataset | Selected model | Threshold | Accuracy | Precision | Recall | F1 | ROC-AUC | PR-AUC | FPR |
 | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| Base | Logistic Regression | 0.7494 | 0.9489 | 0.1395 | 0.5114 | 0.2192 | 0.8916 | 0.1711 | 0.0449 |
-| Variant I | Logistic Regression | 0.7405 | 0.9500 | 0.1220 | 0.4131 | 0.1884 | 0.8678 | 0.1394 | 0.0423 |
-| Variant II | Logistic Regression | 0.7397 | 0.9459 | 0.1232 | 0.4658 | 0.1948 | 0.8722 | 0.1610 | 0.0472 |
-| Variant III | Logistic Regression | 0.7755 | 0.9418 | 0.0931 | 0.4918 | 0.1565 | 0.8606 | 0.1130 | 0.0532 |
-| Variant IV | Logistic Regression | 0.7645 | 0.9401 | 0.0797 | 0.4226 | 0.1341 | 0.8421 | 0.1088 | 0.0542 |
-| Variant V | Logistic Regression | 0.7640 | 0.9443 | 0.0896 | 0.4444 | 0.1491 | 0.8600 | 0.0982 | 0.0502 |
+| Base | Catboost | 0.6074 | 0.9495 | 0.1374 | 0.4915 | 0.2148 | 0.8823 | 0.1832 | 0.0439 |
+| Variant I | Catboost | 0.6322 | 0.9519 | 0.1245 | 0.4017 | 0.1901 | 0.8482 | 0.1530 | 0.0402 |
+| Variant II | Catboost | 0.6132 | 0.9419 | 0.1128 | 0.4573 | 0.1809 | 0.8531 | 0.1458 | 0.0512 |
+| Variant III | Catboost | 0.6897 | 0.9522 | 0.1030 | 0.4353 | 0.1666 | 0.8461 | 0.1314 | 0.0421 |
+| Variant IV | Catboost | 0.6662 | 0.9455 | 0.0813 | 0.3843 | 0.1342 | 0.8354 | 0.1127 | 0.0482 |
+| Variant V | Catboost | 0.6675 | 0.9435 | 0.0898 | 0.4536 | 0.1500 | 0.8457 | 0.1165 | 0.0510 |
 
 ## Commands
 

@@ -1,5 +1,8 @@
 {
   "config": {
+    "catboost_depth": 7,
+    "catboost_iterations": 350,
+    "catboost_learning_rate": 0.08,
     "clustering_k_values": [
       2,
       3,
@@ -162,31 +165,31 @@
         "sentinel_minus_one_total": 973183
       },
       "test_metrics": {
-        "accuracy": 0.94886,
+        "accuracy": 0.94954,
         "confusion_matrix": [
           [
-            47084,
-            2214
+            47132,
+            2166
           ],
           [
-            343,
-            359
+            357,
+            345
           ]
         ],
-        "f1": 0.21923664122137404,
-        "false_negative": 343,
-        "false_positive": 2214,
-        "false_positive_rate": 0.0449105440382977,
-        "pr_auc": 0.171088524167159,
-        "precision": 0.13952584531675088,
-        "recall": 0.5113960113960114,
-        "roc_auc": 0.8915903790645158,
-        "threshold": 0.7493798419100224,
-        "true_negative": 47084,
-        "true_positive": 359
+        "f1": 0.21475256769374415,
+        "false_negative": 357,
+        "false_positive": 2166,
+        "false_positive_rate": 0.04393687370684409,
+        "pr_auc": 0.18318943049323214,
+        "precision": 0.13739545997610514,
+        "recall": 0.49145299145299143,
+        "roc_auc": 0.8822994500912469,
+        "threshold": 0.6074449469461461,
+        "true_negative": 47132,
+        "true_positive": 345
       },
-      "validation_pr_auc": 0.15739594083860173,
-      "winner": "logistic_regression"
+      "validation_pr_auc": 0.1821167536457319,
+      "winner": "catboost"
     },
     {
       "champion_artifact": "artifacts/variant_i/champion.joblib",
@@ -298,31 +301,31 @@
         "sentinel_minus_one_total": 965874
       },
       "test_metrics": {
-        "accuracy": 0.95002,
+        "accuracy": 0.95194,
         "confusion_matrix": [
           [
-            47211,
-            2087
+            47315,
+            1983
           ],
           [
-            412,
-            290
+            420,
+            282
           ]
         ],
-        "f1": 0.18837284832737902,
-        "false_negative": 412,
-        "false_positive": 2087,
-        "false_positive_rate": 0.042334374619660026,
-        "pr_auc": 0.13942281583991173,
-        "precision": 0.12200252419015566,
-        "recall": 0.4131054131054131,
-        "roc_auc": 0.867833788094245,
-        "threshold": 0.7404547700706213,
-        "true_negative": 47211,
-        "true_positive": 290
+        "f1": 0.19009100101112233,
+        "false_negative": 420,
+        "false_positive": 1983,
+        "false_positive_rate": 0.04022475556817721,
+        "pr_auc": 0.15298460457712118,
+        "precision": 0.12450331125827814,
+        "recall": 0.4017094017094017,
+        "roc_auc": 0.8481649885763642,
+        "threshold": 0.6321949936597202,
+        "true_negative": 47315,
+        "true_positive": 282
       },
-      "validation_pr_auc": 0.14583935737370182,
-      "winner": "logistic_regression"
+      "validation_pr_auc": 0.15604588690750748,
+      "winner": "catboost"
     },
     {
       "champion_artifact": "artifacts/variant_ii/champion.joblib",
@@ -434,31 +437,31 @@
         "sentinel_minus_one_total": 1007388
       },
       "test_metrics": {
-        "accuracy": 0.94594,
+        "accuracy": 0.94188,
         "confusion_matrix": [
           [
-            46970,
-            2328
+            46773,
+            2525
           ],
           [
-            375,
-            327
+            381,
+            321
           ]
         ],
-        "f1": 0.19481680071492405,
-        "false_negative": 375,
-        "false_positive": 2328,
-        "false_positive_rate": 0.04722301107550002,
-        "pr_auc": 0.16095206867935244,
-        "precision": 0.12316384180790961,
-        "recall": 0.4658119658119658,
-        "roc_auc": 0.8721711230230846,
-        "threshold": 0.7397147216182983,
-        "true_negative": 46970,
-        "true_positive": 327
+        "f1": 0.18094701240135289,
+        "false_negative": 381,
+        "false_positive": 2525,
+        "false_positive_rate": 0.05121911639417421,
+        "pr_auc": 0.14580124907679404,
+        "precision": 0.11278988053408293,
+        "recall": 0.45726495726495725,
+        "roc_auc": 0.8531395898124772,
+        "threshold": 0.613159866694673,
+        "true_negative": 46773,
+        "true_positive": 321
       },
-      "validation_pr_auc": 0.12395429502597358,
-      "winner": "logistic_regression"
+      "validation_pr_auc": 0.13110374622387608,
+      "winner": "catboost"
     },
     {
       "champion_artifact": "artifacts/variant_iii/champion.joblib",
@@ -575,31 +578,31 @@
         "sentinel_minus_one_total": 1015308
       },
       "test_metrics": {
-        "accuracy": 0.9418,
+        "accuracy": 0.95218,
         "confusion_matrix": [
           [
-            46820,
-            2631
+            47370,
+            2081
           ],
           [
-            279,
-            270
+            310,
+            239
           ]
         ],
-        "f1": 0.1565217391304348,
-        "false_negative": 279,
-        "false_positive": 2631,
-        "false_positive_rate": 0.053204181917453644,
-        "pr_auc": 0.11303677034014477,
-        "precision": 0.09307135470527404,
-        "recall": 0.4918032786885246,
-        "roc_auc": 0.8606350184037121,
-        "threshold": 0.7754754870302925,
-        "true_negative": 46820,
-        "true_positive": 270
+        "f1": 0.16660857441617288,
+        "false_negative": 310,
+        "false_positive": 2081,
+        "false_positive_rate": 0.04208206103011061,
+        "pr_auc": 0.13138694958079963,
+        "precision": 0.10301724137931034,
+        "recall": 0.4353369763205829,
+        "roc_auc": 0.8460765875984982,
+        "threshold": 0.6896605877103232,
+        "true_negative": 47370,
+        "true_positive": 239
       },
-      "validation_pr_auc": 0.11203127284574423,
-      "winner": "logistic_regression"
+      "validation_pr_auc": 0.11241055286991133,
+      "winner": "catboost"
     },
     {
       "champion_artifact": "artifacts/variant_iv/champion.joblib",
@@ -711,31 +714,31 @@
         "sentinel_minus_one_total": 1015027
       },
       "test_metrics": {
-        "accuracy": 0.94006,
+        "accuracy": 0.94554,
         "confusion_matrix": [
           [
-            46771,
-            2680
+            47066,
+            2385
           ],
           [
-            317,
-            232
+            338,
+            211
           ]
         ],
-        "f1": 0.13406529904651834,
-        "false_negative": 317,
-        "false_positive": 2680,
-        "false_positive_rate": 0.05419506177832602,
-        "pr_auc": 0.10875558062057787,
-        "precision": 0.07967032967032966,
-        "recall": 0.4225865209471767,
-        "roc_auc": 0.8421208770294187,
-        "threshold": 0.7645341255890231,
-        "true_negative": 46771,
-        "true_positive": 232
+        "f1": 0.134181240063593,
+        "false_negative": 338,
+        "false_positive": 2385,
+        "false_positive_rate": 0.04822956057511476,
+        "pr_auc": 0.1126922826495617,
+        "precision": 0.0812788906009245,
+        "recall": 0.3843351548269581,
+        "roc_auc": 0.83542075228265,
+        "threshold": 0.6662294140249154,
+        "true_negative": 47066,
+        "true_positive": 211
       },
-      "validation_pr_auc": 0.11493714235788283,
-      "winner": "logistic_regression"
+      "validation_pr_auc": 0.13669097921044698,
+      "winner": "catboost"
     },
     {
       "champion_artifact": "artifacts/variant_v/champion.joblib",
@@ -852,31 +855,31 @@
         "sentinel_minus_one_total": 1014540
       },
       "test_metrics": {
-        "accuracy": 0.9443,
+        "accuracy": 0.94354,
         "confusion_matrix": [
           [
-            46971,
-            2480
+            46928,
+            2523
           ],
           [
-            305,
-            244
+            300,
+            249
           ]
         ],
-        "f1": 0.14909868622059272,
-        "false_negative": 305,
-        "false_positive": 2480,
-        "false_positive_rate": 0.05015065418292856,
-        "pr_auc": 0.09817002843667799,
-        "precision": 0.08957415565345081,
-        "recall": 0.4444444444444444,
-        "roc_auc": 0.8599760525395804,
-        "threshold": 0.7639500050250096,
-        "true_negative": 46971,
-        "true_positive": 244
+        "f1": 0.14995483288166214,
+        "false_negative": 300,
+        "false_positive": 2523,
+        "false_positive_rate": 0.05102020181593901,
+        "pr_auc": 0.11648150272666141,
+        "precision": 0.08982683982683982,
+        "recall": 0.453551912568306,
+        "roc_auc": 0.8456708576379945,
+        "threshold": 0.6674676912075957,
+        "true_negative": 46928,
+        "true_positive": 249
       },
-      "validation_pr_auc": 0.10651814804917445,
-      "winner": "logistic_regression"
+      "validation_pr_auc": 0.11949261162673479,
+      "winner": "catboost"
     }
   ],
   "leakage_controls": {

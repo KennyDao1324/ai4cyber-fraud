@@ -38,6 +38,9 @@ class TrainingConfig:
     random_seed: int = 42
     tree_estimators: int = 160
     tree_max_depth: int | None = 16
+    catboost_iterations: int = 350
+    catboost_depth: int = 7
+    catboost_learning_rate: float = 0.08
     n_jobs: int = -1
     clustering_sample_rows: int = 30_000
     clustering_k_values: list[int] = field(default_factory=lambda: [2, 3, 4, 5, 6])
